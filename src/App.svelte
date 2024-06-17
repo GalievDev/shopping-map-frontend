@@ -1,11 +1,28 @@
 <script lang="ts">
+    import Router from "svelte-spa-router";
+    import Home from "./routes/Home.svelte";
+    import NotFound from "./routes/NotFound.svelte";
+    import Clothes from "./routes/Clothes.svelte";
+    import Outfits from "./routes/Outfits.svelte";
+    import Capsules from "./routes/Capsules.svelte";
 
-import ClothCard from "./component/ClothCard.svelte";
+    let routes = {
+        "/": Home,
+        "/clothes": Clothes,
+        "/outfits": Outfits,
+        "/capsules": Capsules,
+
+        "*": NotFound
+    }
 </script>
 
-<main>
-    <ClothCard></ClothCard>
-</main>
+<nav>
+    <a href="/#/">Home</a>
+    <a href="/#/clothes">Clothes</a>
+    <a href="/#/outfits">Outfits</a>
+    <a href="/#/capsules">Capsules</a>
+</nav>
 
-<style>
-</style>
+<main>
+    <Router {routes}></Router>
+</main>

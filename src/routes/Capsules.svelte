@@ -1,0 +1,1 @@
+<h1>Capsules page</h1>

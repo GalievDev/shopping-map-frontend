@@ -21,6 +21,7 @@
   "dependencies": {
     "@svelteuidev/composables": "^0.15.6",
     "@svelteuidev/core": "^0.15.6",
-    "@svelteuidev/prism": "^0.15.6"
+    "@svelteuidev/prism": "^0.15.6",
+    "svelte-spa-router": "^4.0.1"
   }
 }
