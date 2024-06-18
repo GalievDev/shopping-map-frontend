@@ -26,33 +26,28 @@
         image = await fetchImage(image_id);
     });
 </script>
-{#if error}
-    <Alert icon={InfoCircled}  title="Oopsie!" color="red">
-        {error}
-    </Alert>
-{:else if image}
-    <Card shadow='sm' padding='lg'>
-            <Card.Section first padding='lg'>
-                <Image
-                        src={`data:image/png;base64,${image.bytes}`}
-                        height={160}
-                        alt={image.name}
-                        id="img"
-                />
+<Card shadow='sm' padding='lg'>
+    {#if error}
+        <Alert icon={InfoCircled}  title="Oopsie!" color="red">
+            {error}
+        </Alert>
+    {:else if image}
+        <Card.Section first padding='lg'>
+            <Image src={`data:image/png;base64,${image.bytes}`} height={160} alt={image.name} id="img"/>
             </Card.Section>
+    {:else}
+        <Loader />
+    {/if}
 
-        <Group position='apart'>
-            <Text weight={500}>{name}</Text>
-        </Group>
+    <Group position='apart'>
+        <Text weight={500}>{name}</Text>
+    </Group>
 
-        <Text size='sm'>
-            {description}
-        </Text>
+    <Text size='sm'>
+        {description}
+    </Text>
 
-        <Button variant='light' color='blue' href="{link}" fullSize>
-            Show
-        </Button>
-    </Card>
-{:else}
-    <Loader />
-{/if}
+    <Button variant='light' color='blue' href="{link}" fullSize>
+        Show
+    </Button>
+</Card>
