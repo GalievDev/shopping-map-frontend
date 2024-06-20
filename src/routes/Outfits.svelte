@@ -1,6 +1,9 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
+    import { Portal } from '@svelteuidev/core';
+
+    let opened = false;
 
     let outfits: any = []
 
@@ -15,3 +18,12 @@
 {#each outfits as outfit (outfit.id)}
     <ClothCard name="{outfit.name}" link="{outfit.link}" description="{outfit.description}"></ClothCard>
 {/each}
+<main style="position: relative; z-index: 1">
+    {#if opened}
+        <Portal zIndex={5}>
+            <div>Your modal content</div>
+        </Portal>
+    {/if}
+
+    <button on:click={() => (opened = !opened)} type="button"> Open modal </button>
+</main>
