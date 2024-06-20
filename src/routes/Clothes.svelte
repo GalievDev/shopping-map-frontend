@@ -1,31 +1,46 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
-    import type Clothes from "../dto/Clothes";
+    import { Button, Flex, Grid, Input } from '@svelteuidev/core';
+    import { MagnifyingGlass } from 'radix-icons-svelte';
 
-    let clothes: Clothes[] | [] = []
-    let error: string | null = null
-
-    async function fetchClothes(): Promise<Clothes[] | []> {
-        try {
-            const response = await fetch(`http://0.0.0.0:8080/api/v1/clothes`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
-            }
-            return await response.json();
-        } catch (err: any) {
-            error = err.message;
-            return [];
-        }
-    }
+    let clothes: any = []
 
     onMount(async () => {
-        clothes = await fetchClothes()
+        const response = await fetch('https://e2484b7d-baa7-4b5f-a860-cf269e3bb116.mock.pstmn.io/api/v1/clothes')
+        clothes = await response.json()
     })
+
+    function sortAlphabetically() {
+        let sortedClothes: any = [];
+        sortedClothes.sort((a: any, b: any) => {
+            if (a.name < b.name) return -1;
+            if (a.name > b.name) return 1;
+            return 0;
+        });
+    }
 
 </script>
 
 <h1>Clothes</h1>
-{#each clothes as cloth (cloth.id)}
-    <ClothCard image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
-{/each}
+<Grid>
+    <Grid.Col span={3} offset={2}>
+        <Input
+                icon={MagnifyingGlass}
+                placeholder='Search'
+                rightSectionWidth={70}
+                styles={{ rightSection: { pointerEvents: 'none' } }}
+        >
+        </Input>
+    </Grid.Col>
+
+    <Grid.Col span={3} offset={3}>
+        <Button color="yellow" ripple radius="md" on:click={sortAlphabetically()}>Сортировка</Button>
+    </Grid.Col>
+</Grid>
+
+<Flex justify="center" gap="lg">
+    {#each clothes as cloth (cloth.id)}
+        <ClothCard image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
+    {/each}
+</Flex>
