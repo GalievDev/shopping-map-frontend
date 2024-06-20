@@ -7,6 +7,8 @@
     import Capsules from "./routes/Capsules.svelte";
     import { createStyles, Tabs } from '@svelteuidev/core';
     import { Grid } from '@svelteuidev/core';
+    import { Badge, Input } from '@svelteuidev/core';
+    import { MagnifyingGlass } from 'radix-icons-svelte';
 
 
 
@@ -29,6 +31,17 @@
     <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
 </Grid>
 
+<Grid cols={10}>
+    <Grid.Col span={5}>
+        <Input
+                icon={MagnifyingGlass}
+                placeholder='Search'
+                rightSectionWidth={70}
+                styles={{ rightSection: { pointerEvents: 'none' } }}
+        >
+        </Input>
+    </Grid.Col>
+</Grid>
 
 <main>
     <Router {routes}></Router>
