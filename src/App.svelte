@@ -31,17 +31,7 @@
     <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
 </Grid>
 
-<Grid cols={10}>
-    <Grid.Col span={5}>
-        <Input
-                icon={MagnifyingGlass}
-                placeholder='Search'
-                rightSectionWidth={70}
-                styles={{ rightSection: { pointerEvents: 'none' } }}
-        >
-        </Input>
-    </Grid.Col>
-</Grid>
+
 
 <main>
     <Router {routes}></Router>
