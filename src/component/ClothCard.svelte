@@ -7,6 +7,7 @@
 
     export let cloth_id: number, image_id: number, name: string, link: string, description: string;
 
+    const url = 'http://10.90.136.54:5252/api/v1'
     let opened = false;
     let image: ImageDTO | null = null;
     let cloth: Clothes | null = null;
@@ -14,7 +15,7 @@
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
-            const response = await fetch(`http://0.0.0.0:8080/api/v1/images/${id}`);
+            const response = await fetch(`${url}/images/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }
@@ -27,7 +28,7 @@
 
     async function fetchClothId(id: number): Promise<Clothes | null> {
         try {
-            const response = await fetch(`http://0.0.0.0:8080/api/v1/clothes/${id}`);
+            const response = await fetch(`${url}/clothes/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }

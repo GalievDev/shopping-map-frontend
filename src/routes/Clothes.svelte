@@ -6,6 +6,7 @@
     import type ClothRequest from "../dto/ClothRequest";
     import {ClothType} from "../dto/ClothType";
 
+    const url = 'http://10.90.136.54:5252/api/v1/clothes'
     let clothes: Clothes[] | [] = []
     let error: string | null = null
     let opened = false
@@ -18,7 +19,7 @@
 
     async function fetchClothes(): Promise<Clothes[] | []> {
         try {
-            const response = await fetch(`http://0.0.0.0:8080/api/v1/clothes`);
+            const response = await fetch(url);
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }
@@ -39,7 +40,7 @@
         };
 
         try {
-            const response = await fetch('http://0.0.0.0:8080/api/v1/clothes', {
+            const response = await fetch(url, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
