@@ -1,11 +1,11 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import {onMount} from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
+    import type Clothes from "../dto/Clothes";
+    import type ClothRequest from "../dto/ClothRequest";
+    import {ClothType} from "../dto/ClothType";
     import {Button, Flex, Grid, Input, Modal} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
-    import {ClothType} from "../dto/ClothType";
-    import type ClothRequest from "../dto/ClothRequest";
-    import type Clothes from "../dto/Clothes";
 
     let clothes: Clothes[] | [] = []
     let opened = false;
@@ -53,6 +53,7 @@
         } catch (error) {
             console.error('Error: ', error)
         }
+
     }
 
     function handleFileChange(event: Event) {
@@ -68,9 +69,9 @@
 
 
     onMount(async () => {
-        const response = await fetch('https://e2484b7d-baa7-4b5f-a860-cf269e3bb116.mock.pstmn.io/api/v1/clothes')
-        clothes = await response.json()
+        clothes = await fetchClothes()
     })
+
 
     function sortAlphabetically() {
         clothes.sort((a: any, b: any) => {
@@ -137,14 +138,16 @@
     </Grid.Col>
 
     <Grid.Col span={1} offset={2.5}>
-        <Button color="yellow" ripple radius="md" on:click={sortAlphabetically}>Сортировка</Button>
+        <Button color=#deccb7 ripple radius="md" on:click={sortAlphabetically}>Сортировка</Button>
     </Grid.Col>
     <Grid.Col span={1} offset={2.5}>
-        <Button on:click={() => (opened = true)} color="yellow" ripple radius="md" >Добавить одежду</Button>
+        <Button on:click={() => (opened = true)} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
     </Grid.Col>
 </Grid>
- <Flex justify="center" gap="lg">
-     {#each clothes as cloth (cloth.id)}
-         <ClothCard image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
-     {/each}
- </Flex>
+<Grid>
+    {#each clothes as cloth (cloth.id)}
+        <Grid.Col span={4}>
+            <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
+        </Grid.Col>
+    {/each}
+</Grid>
