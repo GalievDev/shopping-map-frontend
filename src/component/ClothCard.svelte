@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {Alert, Button, Card, Group, Image, Loader, Text} from '@svelteuidev/core';
+    import {Alert, Button, Card, Group, Image, Loader, Text, Grid, Modal} from '@svelteuidev/core';
     import { InfoCircled } from 'radix-icons-svelte';
     import { onMount } from "svelte";
     import type ImageDTO from "../dto/Image";
@@ -8,6 +8,7 @@
 
     let image: ImageDTO | null = null;
     let error: string | null = null;
+    let opened = false;
 
     async function fetchImage(id: number): Promise<Image | null> {
         try {
@@ -22,10 +23,19 @@
         }
     }
 
+    function close() {
+        opened = false;
+    }
+
     onMount(async () => {
         image = await fetchImage(image_id);
     });
 </script>
+
+<Modal {opened} on:close={close} title="Добавление одежды">
+    bebra
+</Modal>
+
 <Card shadow='sm' padding='lg'>
     {#if error}
         <Alert icon={InfoCircled}  title="Oopsie!" color="red">
@@ -47,7 +57,16 @@
         {description}
     </Text>
 
-    <Button variant='light' color='blue' href="{link}" fullSize>
-        Show
-    </Button>
+    <Grid>
+        <Grid.Col span={6}>
+            <Button variant='light' color='blue' on:click={() => (opened = true)} fullSize>
+                Show
+            </Button>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Button variant='light' color='blue' href="{link}" fullSize>
+                Link
+            </Button>
+        </Grid.Col>
+    </Grid>
 </Card>
