@@ -29,7 +29,6 @@
     <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" on:click={navigate_clothes}>
         Добавить предмет
     </Button>
-
         <Button style="padding: {vertical_outfit} {horizontal_outfit};">
             1
         </Button>
