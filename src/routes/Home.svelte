@@ -15,6 +15,39 @@
     }
 </script>
 <h1>Home page</h1>
+<!-- MyLayout.svelte -->
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* Сетка из 3 колонок */
+        gap: 100px; /* Пространство между элементами сетки */
+        margin-top: 60px; /* Отступ сверху для сетки, чтобы отделить её от стека */
+    }
+</style>
+
+
+<div class="grid">
+        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" on:click={navigate_clothes}>
+        Добавить предмет
+    </Button>
+        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        1
+    </Button>
+        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+            2
+        </Button>
+
+        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" on:click={navigate_capsule}>
+        Создать новую капсулу
+    </Button>
+        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        3
+    </Button>
+
+        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+            4</Button>
+</div>
+
 <Grid>
     <Grid.Col span={5} offset={0.7}>
         <Input color="gray"
@@ -26,28 +59,12 @@
     </Grid.Col>
 </Grid>
 <SimpleGrid cols = {3}>
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" on:click={navigate_clothes}>
-        Добавить предмет
-    </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            1
-        </Button>
 
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            2
-        </Button>
 
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" on:click={navigate_capsule}>
-        Создать новую капсулу
-    </Button>
 
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            3
-        </Button>
 
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            4
-        </Button>
+
+
 
 
 
