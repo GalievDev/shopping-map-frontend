@@ -7,11 +7,11 @@
     import Clothes from "./Clothes.svelte";
 
     interface Capsule {
-        id: string;
+        id: number;
         name: string;
         description: string;
-        image_id: string;
-        outfits: { id: string; name: string; description: string, image_id: string, clothes: Clothes[]}[];
+        image_id: number;
+        outfits: { id: number; name: string; description: string, image_id: number, clothes: Clothes[]}[];
     }
 
     type Capsules = Capsule[];
@@ -19,7 +19,14 @@
     interface CapsuleRequest {
         name: string;
         description: string;
-        outfits: { id: string; name: string; description: string, image_id: string, clothes: Clothes[]}[];
+        outfits: { id: number; name: string; description: string, image_id: number, clothes: Clothes[]}[];
+        image: Image;
+    }
+
+    interface Image {
+        id: number;
+        name: string;
+        bytes: string;
     }
 
     const url = 'http://10.90.136.54:5252/api/v1/capsules';
@@ -29,10 +36,10 @@
 
     let name = '';
     let description = '';
-    let outfits: Outfits[] | [] = [];
+    let outfits: Outfits | [] = [];
     let outfitName = '';
     let outfitDescription = '';
-    let image = '';
+    let image = ''
     let searchQuery = '';
 
     async function fetchCapsules(): Promise<Capsule[] | []> {
@@ -65,8 +72,10 @@
 
     async function sendCapsuleRequest() {
         const capsuleRequest: CapsuleRequest = {
+            id,
             name,
             description,
+            image,
             outfits
         };
 
@@ -97,7 +106,7 @@
 
     function addOutfit() {
         if (outfitName && outfitDescription) {
-            outfits = [...outfits, { id: Date.now().toString(), name: outfitName, description: outfitDescription }];
+            outfits = [...outfits, { id: outfit.id, name: outfitName, description: outfitDescription }];
             outfitName = '';
             outfitDescription = '';
         }
@@ -131,9 +140,8 @@
             <Input bind:value={name} required></Input>
             <Text>Описание:</Text>
             <Input bind:value={description} required></Input>
-<!--            <Text>Загрузите фото:</Text>-->
-<!--            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>-->
-
+            <Text>Загрузите фото:</Text>
+            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
             <Text>Добавить аутфиты:</Text>
             <Flex gap="sm" direction="row">
                 <Input bind:value={outfitName} placeholder="Название" required></Input>
