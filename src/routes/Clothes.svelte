@@ -63,10 +63,6 @@
         }
     }
 
-    function close() {
-        opened = false;
-    }
-
     onMount(async () => {
         clothes = await fetchClothes()
     })
@@ -74,7 +70,7 @@
 </script>
 
 <h1>Clothes</h1>
-<Modal {opened} on:close={close} title="Create cloth"
+<Modal centered {opened} on:close={() => opened = false} title="Create cloth"
        overlayOpacity={0.55}
        overlayBlur={3}
 >
@@ -111,9 +107,9 @@
         <button type="submit">Submit</button>
     </form>
 </Modal>
-<Button color="pink" on:click={() => (opened=true)}>
+<Button color="red" on:click={() => (opened=true)}>
     Create cloth
 </Button>
 {#each clothes as cloth (cloth.id)}
-    <ClothCard image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
+    <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
 {/each}
