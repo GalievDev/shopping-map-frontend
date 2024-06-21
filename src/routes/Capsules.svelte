@@ -4,13 +4,14 @@
     import { Button, Flex, Grid, Input, Modal, Text } from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
     import Outfits from "./Outfits.svelte";
+    import Clothes from "./Clothes.svelte";
 
     interface Capsule {
         id: string;
-        image_id: string;
         name: string;
         description: string;
-        outfits: Outfits[];
+        image_id: string;
+        outfits: { id: string; name: string; description: string, image_id: string, clothes: Clothes[]}[];
     }
 
     type Capsules = Capsule[];
@@ -18,7 +19,7 @@
     interface CapsuleRequest {
         name: string;
         description: string;
-        outfits: Outfits[];
+        outfits: { id: string; name: string; description: string, image_id: string, clothes: Clothes[]}[];
     }
 
     const url = 'http://10.90.136.54:5252/api/v1/capsules';
@@ -28,7 +29,7 @@
 
     let name = '';
     let description = '';
-    let outfits: Outfits[] = [];
+    let outfits: Outfits[] | [] = [];
     let outfitName = '';
     let outfitDescription = '';
     let image = '';
@@ -38,11 +39,14 @@
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                throw new Error('Failed to fetch capsules: ' + response.statusText);
             }
-            return await response.json();
+            const data = await response.json();
+            console.log('Fetched capsules:', data);
+            return data;
         } catch (err: any) {
             error = err.message;
+            console.error('Fetch error:', err);
             return [];
         }
     }
@@ -116,7 +120,7 @@
     }
 </script>
 
-<h1>Капсулы</h1>
+<h1>Каталог капсул</h1>
 <Modal centered {opened} on:close={() => opened = false} title="Добавление капсулы"
        overlayOpacity={0.55}
        overlayBlur={3}
@@ -127,13 +131,13 @@
             <Input bind:value={name} required></Input>
             <Text>Описание:</Text>
             <Input bind:value={description} required></Input>
-            <Text>Загрузите фото:</Text>
-            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
+<!--            <Text>Загрузите фото:</Text>-->
+<!--            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>-->
 
             <Text>Добавить аутфиты:</Text>
             <Flex gap="sm" direction="row">
-                <Input bind:value={outfitName} placeholder="Название:" required></Input>
-                <Input bind:value={outfitDescription} placeholder="Описание:" required></Input>
+                <Input bind:value={outfitName} placeholder="Название" required></Input>
+                <Input bind:value={outfitDescription} placeholder="Описание" required></Input>
                 <Button type="button" on:click={addOutfit}>Добавить</Button>
             </Flex>
 
@@ -173,7 +177,8 @@
 <Grid>
     {#each capsules as capsule (capsule.id)}
         <Grid.Col span={4}>
-            <ClothCard cloth_id="{capsule.id}" image_id="{capsule.image_id}" name="{capsule.name}" description="{capsule.description}"></ClothCard>
+            <ClothCard id={capsule.id} image_id={capsule.image_id} name={capsule.name} description={capsule.description} outfits={capsule.outfits}></ClothCard>
         </Grid.Col>
     {/each}
 </Grid>
+
