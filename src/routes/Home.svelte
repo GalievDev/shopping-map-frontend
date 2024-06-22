@@ -32,7 +32,7 @@
     <h1 class="grid">Outfuts</h1>
 </Grid>
 <div class="grid">
-        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" href="http://localhost:5173/#/clothes">
+        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Добавить предмет
     </Button>
         <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
@@ -41,7 +41,7 @@
         <Button style="padding: {vertical_outfit} {horizontal_outfit};">
             2
         </Button>
-        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" href="http://localhost:5173/#/capsules">
+        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Создать новую капсулу
     </Button>
         <Button style="padding: {vertical_outfit} {horizontal_outfit};">
