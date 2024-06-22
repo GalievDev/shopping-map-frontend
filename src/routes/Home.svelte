@@ -1,74 +1,52 @@
-<h1>Home page</h1>
-
 <script lang="ts">
-
-import {MagnifyingGlass} from "radix-icons-svelte";
-import {Grid, Input} from "@svelteuidev/core";
-import { Button, Flex } from '@svelteuidev/core';
-import { Badge, Card, Group, Image, Text } from '@svelteuidev/core';
-
-
+    import { EnvelopeClosed } from 'radix-icons-svelte';
+    import { Button, Flex, Grid, Input, Card, Image} from '@svelteuidev/core';
+    import { MagnifyingGlass } from 'radix-icons-svelte';
+    export let vertical_item_and_capslue = '130px'
+    export let horizontal_item_and_capslue = '230px'
+    export let vertical_outfit = '100px'
+    export let horizontal_outfit = '110px'
 </script>
-
-<Grid cols={10}>
-    <Grid.Col span={5}>
-        <Input
-                icon={MagnifyingGlass}
-                placeholder='Search'
-                rightSectionWidth={70}
-                styles={{ rightSection: { pointerEvents: 'none' } }}
-        >
+<h1>Home page</h1>
+<style>
+    .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr; /* Сетка из 3 колонок */
+        gap: 50px; /* Пространство между элементами сетки */
+        margin-top: 15px; /* Отступ сверху для сетки, чтобы отделить её от стека */
+        margin-left: 60px;
+    }
+    .outfits{
+        margin-left: 200px;
+    }
+</style>
+<Grid span={10}>
+    <Grid.Col span={5} offset={0.5}>
+        <Input color="red"
+               icon={MagnifyingGlass}
+               placeholder='Поиск...'
+               rightSectionWidth={70}
+               styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
+    <h1 class="grid">Outfuts</h1>
 </Grid>
-
-<Grid cols={12}>
-    <Grid.Col span={6} offset={0.2}>
-        <div class="card">
-            <img alt="Card Background" class="background-image" />
-            <div class="card-content">
-                <button class="button">Click Me!</button>
-            </div>
-        </div>
-        <style>
-            .card {
-                width: 300px;
-                height: 200px;
-                position: relative;
-                overflow: hidden;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-
-            .background-image {
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-
-            .card-content {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                text-align: center;
-            }
-
-            .button {
-                padding: 10px 20px;
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-            }
-        </style>
-    </Grid.Col>
-
-    <Grid.Col span={3} offset={1}>
-        <Button color="yellow">Сортировка</Button>
-    </Grid.Col>
-</Grid>
+<div class="grid">
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" href="http://localhost:5173/#/clothes">
+        Добавить предмет
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
+        1
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        2
+    </Button>
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray" href="http://localhost:5173/#/capsules">
+        Создать новую капсулу
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        3
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        4</Button>
+</div>
