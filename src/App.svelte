@@ -5,7 +5,12 @@
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
     import Capsules from "./routes/Capsules.svelte";
-    import {SvelteUIProvider} from "@svelteuidev/core";
+    import {createStyles, SvelteUIProvider, Tabs} from '@svelteuidev/core';
+    import { Grid } from '@svelteuidev/core';
+    import { Badge, Input } from '@svelteuidev/core';
+    import { MagnifyingGlass } from 'radix-icons-svelte';
+
+
 
     let routes = {
         "/": Home,
@@ -15,14 +20,29 @@
 
         "*": NotFound
     }
+
 </script>
+
 <SvelteUIProvider>
-    <nav>
-        <a href="/#/">Home</a>
-        <a href="/#/clothes">Clothes</a>
-        <a href="/#/outfits">Outfits</a>
-        <a href="/#/capsules">Capsules</a>
-    </nav>
+    <Grid cols={36}>
+    <Grid.Col span={12}>InnoStyle</Grid.Col>
+    <Grid.Col span={6}><a href="/#/">Home</a></Grid.Col>
+    <Grid.Col span={6}><a href="/#/clothes">Clothes</a></Grid.Col>
+    <Grid.Col span={6}><a href="/#/outfits">Outfits</a></Grid.Col>
+    <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
+    </Grid>
+
+    <Grid cols={10}>
+        <Grid.Col span={5}>
+            <Input
+                    icon={MagnifyingGlass}
+                    placeholder='Search'
+                    rightSectionWidth={70}
+                    styles={{ rightSection: { pointerEvents: 'none' } }}
+            >
+            </Input>
+        </Grid.Col>
+    </Grid>
 
     <main>
         <Router {routes}></Router>

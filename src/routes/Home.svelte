@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { EnvelopeClosed } from 'radix-icons-svelte';
     import { Button, Flex, Grid, Input, Card, Image} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
     export let vertical_item_and_capslue = '130px'
