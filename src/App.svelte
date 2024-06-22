@@ -16,7 +16,6 @@
         "*": NotFound
     }
 </script>
-
 <SvelteUIProvider>
     <nav>
         <a href="/#/">Home</a>
@@ -29,3 +28,4 @@
         <Router {routes}></Router>
     </main>
 </SvelteUIProvider>
+
