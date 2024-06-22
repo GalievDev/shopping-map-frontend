@@ -1,9 +1,8 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import ClothCard from "../component/ClothCard.svelte";
+    import OutfitCard from "../component/OutfitCard.svelte";
     import type Outfits from "../dto/Outfits";
     import type OutfitRequest from "../dto/OutfitRequest";
-    import {ClothType} from "../dto/ClothType";
     import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
     import Clothes from "./Clothes.svelte";
@@ -143,9 +142,11 @@
     </Grid.Col>
 </Grid>
 <Grid>
-    {#each outfits as cloth (cloth.id)}
-        <Grid.Col span={4}>
-            <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
-        </Grid.Col>
+    {#each outfits as outfit (outfit.id)}
+        {#each clothes as cloth (cloth.id)}
+            <Grid.Col span={4}>
+                <OutfitCard outfit_id="{outfit.id}" image_id="{outfit.image_id}" name="{outfit.name}" description="{outfit.description}"> clothes={cloth}</OutfitCard>
+            </Grid.Col>
+            {/each}
     {/each}
 </Grid>

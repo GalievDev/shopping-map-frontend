@@ -1,4 +1,4 @@
-export default interface Clothes {
+export default interface Outfits {
     id: number,
     name: string,
     description: string,
