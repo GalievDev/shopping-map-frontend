@@ -3,46 +3,23 @@
     import ClothCard from "../component/ClothCard.svelte";
     import { Button, Flex, Grid, Input, Modal, Text } from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
-    import Outfits from "./Outfits.svelte";
-    import Clothes from "./Clothes.svelte";
-
-    interface Capsule {
-        id: number;
-        name: string;
-        description: string;
-        image_id: number;
-        outfits: { id: number; name: string; description: string, image_id: number, clothes: Clothes[]}[];
-    }
-
-    type Capsules = Capsule[];
-
-    interface CapsuleRequest {
-        name: string;
-        description: string;
-        outfits: { id: number; name: string; description: string, image_id: number, clothes: Clothes[]}[];
-        image: Image;
-    }
-
-    interface Image {
-        id: number;
-        name: string;
-        bytes: string;
-    }
+    import type Capsules from "../dto/Capsules";
+    import type CapsuleRequest from "../dto/CapsuleRequest";
 
     const url = 'http://10.90.136.54:5252/api/v1/capsules';
-    let capsules: Capsules | [] = [];
+    let capsules: Capsules[] | [] = [];
     let error: string | null = null;
     let opened = false;
 
     let name = '';
     let description = '';
-    let outfits: Outfits | [] = [];
+    let outfits: number[] | [] = [];
     let outfitName = '';
     let outfitDescription = '';
-    let image = ''
+    let image_id: number
     let searchQuery = '';
 
-    async function fetchCapsules(): Promise<Capsule[] | []> {
+    async function fetchCapsules(): Promise<Capsules[] | []> {
         try {
             const response = await fetch(url);
             if (!response.ok) {
@@ -72,10 +49,8 @@
 
     async function sendCapsuleRequest() {
         const capsuleRequest: CapsuleRequest = {
-            id,
             name,
             description,
-            image,
             outfits
         };
 
@@ -93,39 +68,21 @@
         }
     }
 
-    function handleFileChange(event: Event) {
-        const file = (event.target as HTMLInputElement).files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                image = (reader.result as string).split(',')[1];
-            };
-            reader.readAsDataURL(file);
-        }
+    function addOutfit() {
+
     }
 
-    function addOutfit() {
-        if (outfitName && outfitDescription) {
-            outfits = [...outfits, { id: outfit.id, name: outfitName, description: outfitDescription }];
-            outfitName = '';
-            outfitDescription = '';
-        }
-    }
 
     onMount(async () => {
         capsules = await fetchCapsules();
     });
 
     function sortAlphabetically() {
-        capsules.sort((a: Capsule, b: Capsule) => {
+        capsules.sort((a: Capsules, b: Capsules) => {
             if (a.name < b.name) return -1;
             if (a.name > b.name) return 1;
             return 0;
         });
-    }
-
-    function close() {
-        opened = false;
     }
 </script>
 
@@ -140,8 +97,6 @@
             <Input bind:value={name} required></Input>
             <Text>Описание:</Text>
             <Input bind:value={description} required></Input>
-            <Text>Загрузите фото:</Text>
-            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
             <Text>Добавить аутфиты:</Text>
             <Flex gap="sm" direction="row">
                 <Input bind:value={outfitName} placeholder="Название" required></Input>
@@ -185,7 +140,7 @@
 <Grid>
     {#each capsules as capsule (capsule.id)}
         <Grid.Col span={4}>
-            <ClothCard id={capsule.id} image_id={capsule.image_id} name={capsule.name} description={capsule.description} outfits={capsule.outfits}></ClothCard>
+            <ClothCard name={capsule.name} description={capsule.description} outfits={capsule.outfits}></ClothCard>
         </Grid.Col>
     {/each}
 </Grid>
