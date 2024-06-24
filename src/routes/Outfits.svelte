@@ -15,6 +15,7 @@
 </script>
 
 <h1>Outfits page</h1>
+<!--
 {#each outfits as outfit (outfit.id)}
     <ClothCard name="{outfit.name}" link="{outfit.link}" description="{outfit.description}"></ClothCard>
 {/each}
@@ -26,4 +27,4 @@
     {/if}
 
     <button on:click={() => (opened = !opened)} type="button"> Open modal </button>
-</main>
+</main>-->

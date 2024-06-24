@@ -13,7 +13,7 @@
     let error: string | null = null;
     let opened = false;
     let capsule: Capsules | null = null;
-    let outfits: Outfits[] | [] = []
+    let outfits: Outfits[] = []
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
@@ -30,7 +30,7 @@
 
     async function fetchOutfit(id: number): Promise<Outfits | null> {
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${url}/outfits/${id}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch outfit: ' + response.statusText);
             }
@@ -61,7 +61,9 @@
         image = await fetchImage(capsule?.id!!)
         for(const id of outfits_ids) {
             const outfit = await fetchOutfit(id)
-            outfits.push(outfit)
+            if (outfit != null) {
+                outfits.push(outfit)
+            }
         }
     }
 
