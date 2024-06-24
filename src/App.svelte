@@ -5,7 +5,7 @@
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
     import Capsules from "./routes/Capsules.svelte";
-    import { Grid } from '@svelteuidev/core';
+    import {Grid, SvelteUIProvider} from '@svelteuidev/core';
 
     let routes = {
         "/": Home,
@@ -18,51 +18,53 @@
 
 </script>
 
-<Grid cols={36}>
-    <Grid.Col span={12}>InnoStyle</Grid.Col>
-    <Grid.Col span={6}><a href="/#/">Home</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/clothes">Clothes</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/outfits">Outfits</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
-</Grid>
+<SvelteUIProvider>
+    <Grid cols={36}>
+        <Grid.Col span={12}>InnoStyle</Grid.Col>
+        <Grid.Col span={6}><a href="/#/">Home</a></Grid.Col>
+        <Grid.Col span={6}><a href="/#/clothes">Clothes</a></Grid.Col>
+        <Grid.Col span={6}><a href="/#/outfits">Outfits</a></Grid.Col>
+        <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
+    </Grid>
 
 
 
-<main>
-    <Router {routes}></Router>
-</main>
+    <main>
+        <Router {routes}></Router>
+    </main>
 
 
 
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="column">
-                <p><a href="Информация">Информация</a></p>
-            </div>
-            <div class="column">
-                <p><a href="Контактная информация">Контактная информация</a></p>
-                <ul>
-                    <li style="margin-top: 1rem;">
-                        <a href="tel:+79887777777">+7(988) 777 77-77</a>
-                    </li>
-                    <li>
-                        <a href="mailto:InnoStyle@mail.ru">InnoStyle@mail.ru</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="column">
-                <p><a href="Помошь">Помощь</a></p>
-            </div>
-            <div class="column">
-                <p><a href="Партнеры">Партнеры</a></p>
-            </div>
-            <div class="column">
-                <p><a href="О нас">О нас</a></p>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="column">
+                    <p><a href="Информация">Информация</a></p>
+                </div>
+                <div class="column">
+                    <p><a href="Контактная информация">Контактная информация</a></p>
+                    <ul>
+                        <li style="margin-top: 1rem;">
+                            <a href="tel:+79887777777">+7(988) 777 77-77</a>
+                        </li>
+                        <li>
+                            <a href="mailto:InnoStyle@mail.ru">InnoStyle@mail.ru</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <p><a href="Помошь">Помощь</a></p>
+                </div>
+                <div class="column">
+                    <p><a href="Партнеры">Партнеры</a></p>
+                </div>
+                <div class="column">
+                    <p><a href="О нас">О нас</a></p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</SvelteUIProvider>
 
 <style>
     main {
