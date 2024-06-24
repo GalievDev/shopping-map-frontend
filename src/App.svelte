@@ -5,12 +5,7 @@
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
     import Capsules from "./routes/Capsules.svelte";
-    import { createStyles, Tabs } from '@svelteuidev/core';
     import { Grid } from '@svelteuidev/core';
-    import { Badge, Input } from '@svelteuidev/core';
-    import { MagnifyingGlass } from 'radix-icons-svelte';
-
-    let year = new Date().getFullYear();
 
     let routes = {
         "/": Home,
