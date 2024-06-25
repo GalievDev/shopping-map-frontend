@@ -67,6 +67,11 @@
         }
     }
 
+    function onClose() {
+        opened = false;
+        outfits = []
+    }
+
     onMount(async () => {
         image = await fetchImage(image_id);
     });
@@ -88,7 +93,7 @@
             <Text weight={500}>{name}</Text>
         </Group>
 
-        <Modal centered {opened} on:close={() => opened = false} title={capsule?.name}
+        <Modal centered {opened} on:close={() => onClose()} title={capsule?.name}
                overlayOpacity={0.55}
                overlayBlur={3}>
             <Flex direction="column" gap="md">
