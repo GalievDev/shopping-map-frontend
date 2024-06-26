@@ -25,24 +25,12 @@
                styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
-    <h1 class="grid">Outfuts</h1>
 </Grid>
 <div class="grid">
         <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Добавить предмет
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
-        1
-    </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            2
-        </Button>
         <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Создать новую капсулу
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        3
-    </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            4</Button>
 </div>
