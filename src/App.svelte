@@ -185,7 +185,6 @@
         background-color: black;
         display: flex;
         align-items: stretch;
-        position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
