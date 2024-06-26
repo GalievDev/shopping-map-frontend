@@ -14,7 +14,7 @@
 
 </script>
 
-<h1>Outfits page</h1>
+<h1>Аутфиты</h1>
 <!--
 {#each outfits as outfit (outfit.id)}
     <ClothCard name="{outfit.name}" link="{outfit.link}" description="{outfit.description}"></ClothCard>

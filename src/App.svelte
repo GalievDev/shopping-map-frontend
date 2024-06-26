@@ -5,7 +5,7 @@
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
     import Capsules from "./routes/Capsules.svelte";
-    import {Grid, SvelteUIProvider} from '@svelteuidev/core';
+    import {Grid, SvelteUIProvider, Text} from '@svelteuidev/core';
 
     let routes = {
         "/": Home,
@@ -21,10 +21,54 @@
 <SvelteUIProvider>
     <Grid cols={36}>
         <Grid.Col span={12}>InnoStyle</Grid.Col>
-        <Grid.Col span={6}><a href="/#/">Home</a></Grid.Col>
-        <Grid.Col span={6}><a href="/#/clothes">Clothes</a></Grid.Col>
-        <Grid.Col span={6}><a href="/#/outfits">Outfits</a></Grid.Col>
-        <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/"
+                    color="black"
+                    transform='uppercase'
+            >
+                Главная
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/clothes"
+                    color="black"
+                    transform='uppercase'
+            >
+                Одежда
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/outfits"
+                    color="black"
+                    transform='uppercase'
+            >
+                Аутфиты
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/capsules"
+                    color="black"
+                    transform='uppercase'
+            >
+                Капсулы
+            </Text>
+        </Grid.Col>
     </Grid>
 
 
@@ -39,27 +83,93 @@
         <div class="container">
             <div class="footer-content">
                 <div class="column">
-                    <p><a href="Информация">Информация</a></p>
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Информация
+                        </Text>
+                    </p>
                 </div>
                 <div class="column">
-                    <p><a href="Контактная информация">Контактная информация</a></p>
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Контактная информация
+                        </Text>
+                    </p>
                     <ul>
                         <li style="margin-top: 1rem;">
-                            <a href="tel:+79887777777">+7(988) 777 77-77</a>
+                            <Text
+                                    variant='link'
+                                    root='a'
+                                    size='md'
+                                    href='https://something.com/'
+                                    color="white"
+                            >
+                                +7(988) 777-77-77
+                            </Text>
                         </li>
                         <li>
-                            <a href="mailto:InnoStyle@mail.ru">InnoStyle@mail.ru</a>
+                            <Text
+                                    variant='link'
+                                    root='a'
+                                    size='md'
+                                    href='https://something.com/'
+                                    color="white"
+                            >
+                                InnoStyle@mail.ru
+                            </Text>
                         </li>
                     </ul>
                 </div>
                 <div class="column">
-                    <p><a href="Помошь">Помощь</a></p>
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Помощь
+                        </Text>
+                    </p>
                 </div>
                 <div class="column">
-                    <p><a href="Партнеры">Партнеры</a></p>
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Партнеры
+                        </Text>
+                    </p>
                 </div>
                 <div class="column">
-                    <p><a href="О нас">О нас</a></p>
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            О нас
+                        </Text>
+                    </p>
                 </div>
             </div>
         </div>
@@ -72,8 +182,7 @@
     }
 
     .footer {
-        background-color: #f0f0f0;
-        padding: 0.1rem 0;
+        background-color: black;
         display: flex;
         align-items: stretch;
         position: fixed;

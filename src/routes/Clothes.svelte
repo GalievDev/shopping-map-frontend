@@ -26,7 +26,7 @@
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }
-            return await response.json();
+            return await response.json();e
         } catch (err: any) {
             error = err.message;
             return [];
