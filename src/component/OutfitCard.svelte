@@ -3,15 +3,20 @@
     import { InfoCircled } from 'radix-icons-svelte';
     import { onMount } from "svelte";
     import type ImageDTO from "../dto/Image";
+    import type Clothes from "../dto/Clothes";
     import type Outfits from "../dto/Outfits";
+    import {ClothType} from "../dto/ClothType";
 
-    export let outfit_id: number, image_id: number, name: string, description: string, clothes: number[];
+    export let outfit_id: number, image_id: number, name: string, description: string, clothes_ids: number[];
 
     const url = 'http://10.90.136.54:5252/api/v1'
     let image: ImageDTO | null = null;
     let error: string | null = null;
     let opened = false;
+    let clothes: Clothes[] = [];
     let outfit: Outfits | null = null;
+
+
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
@@ -26,7 +31,7 @@
         }
     }
 
-    async function fetchClothId(id: number): Promise<Outfits | null> {
+    async function fetchOutfitId(id: number): Promise<Outfits | null> {
         try {
             const response = await fetch(`${url}/outfits/${id}`);
             if (!response.ok) {
@@ -39,10 +44,34 @@
         }
     }
 
-    async function fetchCloth(id: number) {
+    async function fetchCloth(id: number): Promise<Clothes | null>{
+        try {
+            const response = await fetch(`${url}/clothes/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch cloth: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return null;
+        }
+
+    }
+
+
+
+    async function fetchOutfit(id: number) {
         opened = true;
-        outfit = await fetchClothId(id);
+        outfit = await fetchOutfitId(id);
         image = await fetchImage(outfit?.id!!)
+        for(const id of clothes_ids) {
+            const cloth = await fetchCloth(id)
+            if (cloth != null) {
+                clothes.push(cloth)
+            }
+        }
+
     }
 
     function close() {
@@ -55,7 +84,15 @@
 </script>
 
 <Card shadow='sm' padding='lg'>
-    <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+    {#if error}
+        <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+            {error}
+        </Alert>
+    {:else if image}
+        <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+    {:else}
+        <Loader></Loader>
+    {/if}
     <Flex justify="center" direction="column" gap="md">
 
         <Group position='apart'>
@@ -70,19 +107,20 @@
                 <Text size='md'>
                     Описание: {description}
                 </Text>
-
+                {#each clothes as cloth}
+                    <Card>
+                        <Text>
+                            {cloth.name}
+                        </Text>
+                    </Card>
+                {/each}
             </Flex>
         </Modal>
 
         <Grid>
             <Grid.Col span={6}>
-                <Button color=#deccb7 on:click={async () => { await fetchCloth(outfit_id) }} fullSize>
+                <Button color=#deccb7 on:click={async () => { await fetchOutfit(outfit_id) }} fullSize>
                     Показать информацию
-                </Button>
-            </Grid.Col>
-            <Grid.Col span={6}>
-                <Button color=#deccb7 href="{clothes}" fullSize>
-                    Ссылка
                 </Button>
             </Grid.Col>
         </Grid>

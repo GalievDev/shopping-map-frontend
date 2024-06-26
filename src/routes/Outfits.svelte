@@ -1,6 +1,7 @@
 <script lang="ts">
     import {onMount} from "svelte";
     import OutfitCard from "../component/OutfitCard.svelte";
+    import ClothCard from "../component/ClothCard.svelte";
     import type Outfits from "../dto/Outfits";
     import type OutfitRequest from "../dto/OutfitRequest";
     import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
@@ -15,15 +16,18 @@
     let name = '';
     let description = '';
     let image = '';
-    let clothes = Array;
+    let clothes: number[] = [];
     let searchQuery = '';
+    let clothName = '';
+    let clothDescription = '';
+
 
 
     async function fetchOutfits(): Promise<Outfits[] | []> {
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                throw new Error('Failed to fetch outfits: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -36,7 +40,7 @@
         const outfitRequest: OutfitRequest = {
             name,
             description,
-            clothes,
+            clothes
         };
 
         try {
@@ -72,11 +76,15 @@
 
 
     function sortAlphabetically() {
-        outfits.sort((a: any, b: any) => {
+        outfits.sort((a: Outfits, b: Outfits) => {
             if (a.name < b.name) return -1;
             if (a.name > b.name) return 1;
             return 0;
         });
+    }
+
+    function addCloth() {
+
     }
 
     function close() {
@@ -109,16 +117,20 @@
             <Input bind:value={name} required></Input>
             <Text>Описание:</Text>
             <Input bind:value={description} required></Input>
-            <Text>Выберите одежду:</Text>
-            <Input root="button">Button input</Input>
-            <Input root="select">
-                {#each Object.values(Clothes) as clothes}
-                    <option value={clothes}>{clothes}</option>
-                {/each}
-            </Input>
+            <Text>Добавить одежду:</Text>
+            <Flex gap="sm" direction="row">
+                <Input bind:value={clothName} placeholder="Название" required></Input>
+                <Input bind:value={clothDescription} placeholder="Описание" required></Input>
+                <Button type="button" on:click={addCloth}>Добавить</Button>
+            </Flex>
+
+            <Text>Одежда:</Text>
+
+            <Button color=#deccb7 type="submit">Подтвердить</Button>
         </Flex>
     </form>
 </Modal>
+
 
 
 <Grid>
@@ -143,10 +155,8 @@
 </Grid>
 <Grid>
     {#each outfits as outfit (outfit.id)}
-        {#each clothes as cloth (cloth.id)}
-            <Grid.Col span={4}>
-                <OutfitCard outfit_id="{outfit.id}" image_id="{outfit.image_id}" name="{outfit.name}" description="{outfit.description}"> clothes={cloth}</OutfitCard>
-            </Grid.Col>
-            {/each}
+        <Grid.Col span={4}>
+            <OutfitCard outfit_id="{outfit.id}" image_id="{outfit.image_id}" name={outfit.name} description={outfit.description} clothes_ids="{outfit.clothes}"></OutfitCard>
+        </Grid.Col>
     {/each}
 </Grid>
