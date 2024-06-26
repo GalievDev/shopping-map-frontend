@@ -5,12 +5,7 @@
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
     import Capsules from "./routes/Capsules.svelte";
-    import { createStyles, Tabs } from '@svelteuidev/core';
-    import { Grid } from '@svelteuidev/core';
-    import { Badge, Input } from '@svelteuidev/core';
-    import { MagnifyingGlass } from 'radix-icons-svelte';
-
-    let year = new Date().getFullYear();
+    import {Grid, SvelteUIProvider, Text} from '@svelteuidev/core';
 
     let routes = {
         "/": Home,
@@ -23,60 +18,195 @@
 
 </script>
 
-<Grid cols={36}>
-    <Grid.Col span={12}>InnoStyle</Grid.Col>
-    <Grid.Col span={6}><a href="/#/">Home</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/clothes">Clothes</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/outfits">Outfits</a></Grid.Col>
-    <Grid.Col span={6}><a href="/#/capsules">Capsules</a></Grid.Col>
-</Grid>
-
-
-
-<main>
-    <Router {routes}></Router>
-</main>
-
-
-
-<footer class="footer">
-    <div class="container">
-        <div class="footer-content">
-            <div class="column">
-                <p><a href="Информация">Информация</a></p>
+<SvelteUIProvider>
+    <div class="header">
+            <Grid cols={36}>
+        <Grid.Col span={12}><div class="name">InnoStyle</div></Grid.Col>
+        <Grid.Col span={6}>
+            <div class="navi">
+                <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/"
+                    color="black"
+                    transform='uppercase'
+                    >
+                    Главная
+                </Text>
             </div>
-            <div class="column">
-                <p><a href="Контактная информация">Контактная информация</a></p>
-                <ul>
-                    <li style="margin-top: 1rem;">
-                        <a href="tel:+79887777777">+7(988) 777 77-77</a>
-                    </li>
-                    <li>
-                        <a href="mailto:InnoStyle@mail.ru">InnoStyle@mail.ru</a>
-                    </li>
-                </ul>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <div class="navi">
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/clothes"
+                    color="black"
+                    transform='uppercase'
+            >
+                Одежда
+            </Text>
             </div>
-            <div class="column">
-                <p><a href="Помошь">Помощь</a></p>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <div class="navi">
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/outfits"
+                    color="black"
+                    transform='uppercase'
+            >
+                Аутфиты
+            </Text>
             </div>
-            <div class="column">
-                <p><a href="Партнеры">Партнеры</a></p>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <div class="navi">
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/capsules"
+                    color="black"
+                    transform='uppercase'
+            >
+                Капсулы
+            </Text>
             </div>
-            <div class="column">
-                <p><a href="О нас">О нас</a></p>
+        </Grid.Col>
+    </Grid>
+    </div>
+
+
+    <main>
+        <Router {routes}></Router>
+    </main>
+
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="column">
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Информация
+                        </Text>
+                    </p>
+                </div>
+                <div class="column">
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Контактная информация
+                        </Text>
+                    </p>
+                    <ul>
+                        <li style="margin-top: 1rem;">
+                            <Text
+                                    variant='link'
+                                    root='a'
+                                    size='md'
+                                    href='https://something.com/'
+                                    color="white"
+                            >
+                                +7(988) 777-77-77
+                            </Text>
+                        </li>
+                        <li>
+                            <Text
+                                    variant='link'
+                                    root='a'
+                                    size='md'
+                                    href='https://something.com/'
+                                    color="white"
+                            >
+                                InnoStyle@mail.ru
+                            </Text>
+                        </li>
+                    </ul>
+                </div>
+                <div class="column">
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Помощь
+                        </Text>
+                    </p>
+                </div>
+                <div class="column">
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            Партнеры
+                        </Text>
+                    </p>
+                </div>
+                <div class="column">
+                    <p>
+                        <Text
+                                variant='link'
+                                root='a'
+                                size='md'
+                                href='https://something.com/'
+                                color="white"
+                        >
+                            О нас
+                        </Text>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-</footer>
+    </footer>
+</SvelteUIProvider>
 
 <style>
     main {
         padding-bottom: 5rem;
     }
 
+    .header {
+        font-family: "Garamond", serif;
+        margin-top: 27px;
+        margin-bottom: 35px;
+    }
+
+    .name {
+        margin-left: 60px;
+        font-size: 50px;
+        font-weight: 549.9;
+    }
+
+    .navi {
+        margin-top: 24px;
+    }
+
     .footer {
-        background-color: #f0f0f0;
-        padding: 0.1rem 0;
+        background-color: black;
         display: flex;
         align-items: stretch;
         position: fixed;
