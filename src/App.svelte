@@ -181,6 +181,22 @@
         padding-bottom: 5rem;
     }
 
+    .header {
+        font-family: "Garamond", serif;
+        margin-top: 27px;
+        margin-bottom: 35px;
+    }
+
+    .name {
+        margin-left: 60px;
+        font-size: 50px;
+        font-weight: 549.9;
+    }
+
+    .navi {
+        margin-top: 24px;
+    }
+
     .footer {
         background-color: black;
         display: flex;
