@@ -116,22 +116,22 @@
                         </Text>
                     </p>
                     <ul>
-                        <li style="margin-top: 1rem;">
+                        <li style="margin-top: -2px; margin-left: 1em; width: 60%; padding: 10px;">
                             <Text
                                     variant='link'
                                     root='a'
-                                    size='md'
+                                    size='sm'
                                     href='https://something.com/'
                                     color="white"
                             >
                                 +7(988) 777-77-77
                             </Text>
                         </li>
-                        <li>
+                        <li style="margin-top: -6px; margin-left: 1.1em; width: 60%; padding: 10px;">
                             <Text
                                     variant='link'
                                     root='a'
-                                    size='md'
+                                    size='sm'
                                     href='https://something.com/'
                                     color="white"
                             >
@@ -187,7 +187,13 @@
 <style>
     main {
         padding-bottom: 5rem;
+        margin: 8px;
+        height: auto;
     }
+
+    :global(body) {
+		margin: 0;
+	}
 
     .header {
         font-family: "Garamond", serif;
@@ -198,7 +204,7 @@
     .name {
         margin-left: 60px;
         font-size: 50px;
-        font-weight: 549.9;
+        font-weight: 549;
     }
 
     .navi {
@@ -207,9 +213,6 @@
 
     .footer {
         background-color: black;
-        display: flex;
-        align-items: stretch;
-        position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -237,11 +240,5 @@
         justify-content: center;
         padding: 2rem;
     }
-    .column ul li {
-        margin-bottom: 0.5rem;
-    }
 
-    .column ul li:last-child {
-        margin-bottom: 0;
-    }
 </style>
