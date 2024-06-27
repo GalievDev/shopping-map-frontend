@@ -15,9 +15,6 @@
         margin-top: 15px; /* Отступ сверху для сетки, чтобы отделить её от стека */
         margin-left: 60px;
     }
-    .outfits{
-        margin-left: 200px;
-    }
 </style>
 <Grid span={10}>
     <Grid.Col span={5} offset={0.5}>

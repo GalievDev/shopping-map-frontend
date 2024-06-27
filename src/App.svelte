@@ -19,25 +19,21 @@
 </script>
 
 <SvelteUIProvider>
-    <div class="header">
-            <Grid cols={36}>
-        <Grid.Col span={12}><div class="name">InnoStyle</div></Grid.Col>
+    <Grid cols={36}>
+        <Grid.Col span={12}>InnoStyle</Grid.Col>
         <Grid.Col span={6}>
-            <div class="navi">
-                <Text
+            <Text
                     variant='link'
                     root='a'
                     size='md'
                     href="/#/"
                     color="black"
                     transform='uppercase'
-                    >
-                    Главная
-                </Text>
-            </div>
+            >
+                Главная
+            </Text>
         </Grid.Col>
         <Grid.Col span={6}>
-            <div class="navi">
             <Text
                     variant='link'
                     root='a'
@@ -48,10 +44,8 @@
             >
                 Одежда
             </Text>
-            </div>
         </Grid.Col>
         <Grid.Col span={6}>
-            <div class="navi">
             <Text
                     variant='link'
                     root='a'
@@ -62,10 +56,8 @@
             >
                 Аутфиты
             </Text>
-            </div>
         </Grid.Col>
         <Grid.Col span={6}>
-            <div class="navi">
             <Text
                     variant='link'
                     root='a'
@@ -76,15 +68,15 @@
             >
                 Капсулы
             </Text>
-            </div>
         </Grid.Col>
     </Grid>
-    </div>
+
 
 
     <main>
         <Router {routes}></Router>
     </main>
+
 
 
     <footer class="footer">
