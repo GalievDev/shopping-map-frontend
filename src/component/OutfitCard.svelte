@@ -3,17 +3,17 @@
     import { InfoCircled } from 'radix-icons-svelte';
     import { onMount } from "svelte";
     import type ImageDTO from "../dto/Image";
-    import type Capsules from "../dto/Capsules";
+    import type Clothes from "../dto/Clothes";
     import type Outfits from "../dto/Outfits";
 
-    export let id: number, image_id: number, name: string, description: string, outfits_ids: number[];
+    export let outfit_id: number, image_id: number, name: string, description: string, clothes_ids: number[];
 
     const url = 'http://10.90.136.54:5252/api/v1'
     let image: ImageDTO | null = null;
     let error: string | null = null;
     let opened = false;
-    let capsule: Capsules | null = null;
-    let outfits: Outfits[] = []
+    let outfit: Outfits | null = null;
+    let clothes: CLothes[] | [] = []
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
@@ -28,11 +28,11 @@
         }
     }
 
-    async function fetchOutfit(id: number): Promise<Outfits | null> {
+    async function fetchCLoth(id: number): Promise<Clothes | null> {
         try {
-            const response = await fetch(`${url}/outfits/${id}`);
+            const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Failed to fetch outfit: ' + response.statusText);
+                throw new Error('Failed to fetch cloth: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -42,9 +42,27 @@
         }
     }
 
-    function onClose() {
-        opened = false;
-        outfits = []
+    async function fetchOutfitId(id: number): Promise<Outfits | null> {
+        try {
+            const response = await fetch(`${url}/outfits/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch image: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            return null;
+        }
+    }
+
+    async function fetchOutfit(id: number) {
+        opened = true;
+        outfit = await fetchOutfitId(id);
+        image = await fetchImage(outfit?.id!!)
+        for(const id of clothes_ids) {
+            const cloth = await fetchCLoth(id)
+            clothes.push(cloth)
+        }
     }
 
     onMount(async () => {
@@ -68,7 +86,7 @@
             <Text weight={500}>{name}</Text>
         </Group>
 
-        <Modal centered {opened} on:close={() => onClose()} title={capsule?.name}
+        <Modal centered {opened} on:close={() => opened = false} title={outfit?.name}
                overlayOpacity={0.55}
                overlayBlur={3}>
             <Flex direction="column" gap="md">
@@ -76,10 +94,10 @@
                 <Text size='md'>
                     Описание: {description}
                 </Text>
-                {#each outfits as outfit}
+                {#each clothes as cloth}
                     <Card>
                         <Text>
-                            {outfit.name}
+                            {cloth.name}
                         </Text>
                     </Card>
                 {/each}
@@ -88,7 +106,7 @@
 
         <Grid>
             <Grid.Col span={6}>
-                <Button color=#deccb7 on:click={async () => { await fetchOutfit(id) }} fullSize>
+                <Button color=#deccb7 on:click={async () => { await fetchOutfit(outfit_id) }} fullSize>
                     Показать информацию
                 </Button>
             </Grid.Col>
