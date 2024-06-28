@@ -12,7 +12,6 @@
         "/clothes": Clothes,
         "/outfits": Outfits,
         "/capsules": Capsules,
-
         "*": NotFound
     }
 
@@ -179,7 +178,22 @@
 <style>
     main {
         padding-bottom: 5rem;
-        height: auto;
+    }
+
+    .header {
+        font-family: "Garamond", serif;
+        margin-top: 27px;
+        margin-bottom: 35px;
+    }
+
+    .name {
+        margin-left: 60px;
+        font-size: 50px;
+        font-weight: 549.9;
+    }
+
+    .navi {
+        margin-top: 24px;
     }
 
     .footer {

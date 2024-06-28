@@ -60,7 +60,9 @@
             {error}
         </Alert>
     {:else if image}
-        <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+        <Flex justify="center">
+            <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+        </Flex>
     {:else}
         <Loader></Loader>
     {/if}
@@ -76,7 +78,7 @@
             <Flex direction="column" gap="md">
                 <Image src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
                 <Text size='md'>
-                    Тип: {cloth?.type.toString()}
+                    Тип: {cloth?.type}
                 </Text>
                 <Text size='md'>
                     Описание: {description}

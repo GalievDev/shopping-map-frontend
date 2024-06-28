@@ -116,7 +116,7 @@
             <Input bind:value={description} required></Input>
             <Text>Выберите тип:</Text>
             <Input root="button">Button input</Input>
-            <Input root="select">
+            <Input root="select" bind:value={type} required>
                 {#each Object.values(ClothType) as clothType}
                     <option value={clothType}>{clothType}</option>
                 {/each}
