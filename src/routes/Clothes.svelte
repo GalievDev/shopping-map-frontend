@@ -26,7 +26,7 @@
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }
-            return await response.json();
+            return await response.json();e
         } catch (err: any) {
             error = err.message;
             return [];
@@ -116,7 +116,7 @@
             <Input bind:value={description} required></Input>
             <Text>Выберите тип:</Text>
             <Input root="button">Button input</Input>
-            <Input root="select">
+            <Input root="select" bind:value={type} required>
                 {#each Object.values(ClothType) as clothType}
                     <option value={clothType}>{clothType}</option>
                 {/each}

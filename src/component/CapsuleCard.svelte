@@ -69,7 +69,7 @@
 
     function onClose() {
         opened = false;
-        //outfits = []
+        outfits = []
     }
 
     onMount(async () => {
