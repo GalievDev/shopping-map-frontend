@@ -62,7 +62,7 @@
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                image = (reader.result as string).split(',')[1]; // Remove the data URL prefix
+                image = (reader.result as string).split(',')[1];
             };
             reader.readAsDataURL(file);
         }
