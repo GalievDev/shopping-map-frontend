@@ -4,7 +4,7 @@
     export let vertical_item_and_capslue = '130px'
     export let horizontal_item_and_capslue = '230px'
 </script>
-<h1>Home page</h1>
+<h1>Главная</h1>
 <style>
     .grid {
         display: grid;
@@ -44,12 +44,24 @@
                styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
+    <h1 class="grid">Аутфиты</h1>
 </Grid>
 <div class="grid">
-        <button class="backgroundImage_add_item custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
-            Добавить предмет
-        </button>
-        <button class="backgroundImage_create_new_capsule custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
-            Создать новую капсулу
-        </button>
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+        Добавить предмет
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
+        1
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        2
+    </Button>
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+        Создать новую капсулу
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        3
+    </Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        4</Button>
 </div>
