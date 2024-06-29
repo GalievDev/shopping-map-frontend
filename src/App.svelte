@@ -19,72 +19,64 @@
 </script>
 
 <SvelteUIProvider>
-    <div class="header">
-        <Grid cols={36}>
-            <Grid.Col span={12}><div class="name">InnoStyle</div></Grid.Col>
-            <Grid.Col span={6}>
-                <div class="navi">
-                    <Text
-                            variant='link'
-                            root='a'
-                            size='md'
-                            href="/#/"
-                            color="black"
-                            transform='uppercase'
-                    >
-                        Главная
-                    </Text>
-                </div>
-            </Grid.Col>
-            <Grid.Col span={6}>
-                <div class="navi">
-                    <Text
-                            variant='link'
-                            root='a'
-                            size='md'
-                            href="/#/clothes"
-                            color="black"
-                            transform='uppercase'
-                    >
-                        Одежда
-                    </Text>
-                </div>
-            </Grid.Col>
-            <Grid.Col span={6}>
-                <div class="navi">
-                    <Text
-                            variant='link'
-                            root='a'
-                            size='md'
-                            href="/#/outfits"
-                            color="black"
-                            transform='uppercase'
-                    >
-                        Аутфиты
-                    </Text>
-                </div>
-            </Grid.Col>
-            <Grid.Col span={6}>
-                <div class="navi">
-                    <Text
-                            variant='link'
-                            root='a'
-                            size='md'
-                            href="/#/capsules"
-                            color="black"
-                            transform='uppercase'
-                    >
-                        Капсулы
-                    </Text>
-                </div>
-            </Grid.Col>
-        </Grid>
-    </div>
+    <Grid cols={36}>
+        <Grid.Col span={12}>InnoStyle</Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/"
+                    color="black"
+                    transform='uppercase'
+            >
+                Главная
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/clothes"
+                    color="black"
+                    transform='uppercase'
+            >
+                Одежда
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/outfits"
+                    color="black"
+                    transform='uppercase'
+            >
+                Аутфиты
+            </Text>
+        </Grid.Col>
+        <Grid.Col span={6}>
+            <Text
+                    variant='link'
+                    root='a'
+                    size='md'
+                    href="/#/capsules"
+                    color="black"
+                    transform='uppercase'
+            >
+                Капсулы
+            </Text>
+        </Grid.Col>
+    </Grid>
+
 
 
     <main>
         <Router {routes}></Router>
     </main>
+
 
 
     <footer class="footer">
@@ -116,22 +108,22 @@
                         </Text>
                     </p>
                     <ul>
-                        <li style="margin-top: -2px; margin-left: 1em; width: 60%; padding: 10px;">
+                        <li style="margin-top: 1rem;">
                             <Text
                                     variant='link'
                                     root='a'
-                                    size='sm'
+                                    size='md'
                                     href='https://something.com/'
                                     color="white"
                             >
                                 +7(988) 777-77-77
                             </Text>
                         </li>
-                        <li style="margin-top: -6px; margin-left: 1.1em; width: 60%; padding: 10px;">
+                        <li>
                             <Text
                                     variant='link'
                                     root='a'
-                                    size='sm'
+                                    size='md'
                                     href='https://something.com/'
                                     color="white"
                             >
@@ -187,17 +179,7 @@
 <style>
     main {
         padding-bottom: 5rem;
-        margin: 8px;
-        height: auto;
     }
-
-    :global(body) {
-        margin: 0;
-    }
-
-    :global(body) {
-		margin: 0;
-	}
 
     .header {
         font-family: "Garamond", serif;
@@ -208,7 +190,7 @@
     .name {
         margin-left: 60px;
         font-size: 50px;
-        font-weight: 549;
+        font-weight: 549.9;
     }
 
     .navi {
@@ -217,6 +199,9 @@
 
     .footer {
         background-color: black;
+        display: flex;
+        align-items: stretch;
+        position: fixed;
         bottom: 0;
         left: 0;
         width: 100%;
@@ -244,5 +229,11 @@
         justify-content: center;
         padding: 2rem;
     }
+    .column ul li {
+        margin-bottom: 0.5rem;
+    }
 
+    .column ul li:last-child {
+        margin-bottom: 0;
+    }
 </style>

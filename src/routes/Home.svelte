@@ -1,10 +1,10 @@
 <script lang="ts">
     import { Button, Flex, Grid, Input, Card, Image, BackgroundImage} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
-    export let vertical_item_and_capslue = '130px'
-    export let horizontal_item_and_capslue = '230px'
+    let vertical_item_and_capslue = '130px'
+    let horizontal_item_and_capslue = '230px'
 </script>
-<h1>Главная</h1>
+<h1>Home page</h1>
 <style>
     .grid {
         display: grid;
@@ -14,7 +14,7 @@
         margin-left: 42px;
     }
     .backgroundImage_add_item{
-        background-image: url('../assets/85739d14c2689fa506bf7319efd6ae3a.jpg');
+        background-image: url('../assets/card_1.jpg');
         background-size: cover;
         border-radius: 12px;
         outline: none;
@@ -22,7 +22,7 @@
 
     }
     .backgroundImage_create_new_capsule{
-        background-image: url('../assets/kofe-chashka-kniga-zhurnal.jpg');
+        background-image: url('../assets/card_2.jpg');
         background-size: cover;
         border-radius: 12px;
         outline: none;
@@ -44,24 +44,12 @@
                styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
-    <h1 class="grid">Аутфиты</h1>
 </Grid>
 <div class="grid">
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    <button class="backgroundImage_add_item custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
         Добавить предмет
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
-        1
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        2
-    </Button>
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    </button>
+    <button class="backgroundImage_create_new_capsule custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
         Создать новую капсулу
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        3
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        4</Button>
+    </button>
 </div>
