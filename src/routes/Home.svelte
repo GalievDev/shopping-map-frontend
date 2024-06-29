@@ -6,7 +6,7 @@
     export let vertical_outfit = '100px'
     export let horizontal_outfit = '110px'
 </script>
-<h1>Home page</h1>
+<h1>Главная</h1>
 <style>
     .grid {
         display: grid;
@@ -14,9 +14,6 @@
         gap: 50px; /* Пространство между элементами сетки */
         margin-top: 15px; /* Отступ сверху для сетки, чтобы отделить её от стека */
         margin-left: 60px;
-    }
-    .outfits{
-        margin-left: 200px;
     }
 </style>
 <Grid span={10}>
@@ -28,24 +25,24 @@
                styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
-    <h1 class="grid">Outfuts</h1>
+    <h1 class="grid">Аутфиты</h1>
 </Grid>
 <div class="grid">
-        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Добавить предмет
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
         1
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            2
-        </Button>
-        <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        2
+    </Button>
+    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
         Создать новую капсулу
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
         3
     </Button>
-        <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-            4</Button>
+    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
+        4</Button>
 </div>

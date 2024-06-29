@@ -20,65 +20,65 @@
 
 <SvelteUIProvider>
     <div class="header">
-            <Grid cols={36}>
-        <Grid.Col span={12}><div class="name">InnoStyle</div></Grid.Col>
-        <Grid.Col span={6}>
-            <div class="navi">
-                <Text
-                    variant='link'
-                    root='a'
-                    size='md'
-                    href="/#/"
-                    color="black"
-                    transform='uppercase'
+        <Grid cols={36}>
+            <Grid.Col span={12}><div class="name">InnoStyle</div></Grid.Col>
+            <Grid.Col span={6}>
+                <div class="navi">
+                    <Text
+                            variant='link'
+                            root='a'
+                            size='md'
+                            href="/#/"
+                            color="black"
+                            transform='uppercase'
                     >
-                    Главная
-                </Text>
-            </div>
-        </Grid.Col>
-        <Grid.Col span={6}>
-            <div class="navi">
-            <Text
-                    variant='link'
-                    root='a'
-                    size='md'
-                    href="/#/clothes"
-                    color="black"
-                    transform='uppercase'
-            >
-                Одежда
-            </Text>
-            </div>
-        </Grid.Col>
-        <Grid.Col span={6}>
-            <div class="navi">
-            <Text
-                    variant='link'
-                    root='a'
-                    size='md'
-                    href="/#/outfits"
-                    color="black"
-                    transform='uppercase'
-            >
-                Аутфиты
-            </Text>
-            </div>
-        </Grid.Col>
-        <Grid.Col span={6}>
-            <div class="navi">
-            <Text
-                    variant='link'
-                    root='a'
-                    size='md'
-                    href="/#/capsules"
-                    color="black"
-                    transform='uppercase'
-            >
-                Капсулы
-            </Text>
-            </div>
-        </Grid.Col>
-    </Grid>
+                        Главная
+                    </Text>
+                </div>
+            </Grid.Col>
+            <Grid.Col span={6}>
+                <div class="navi">
+                    <Text
+                            variant='link'
+                            root='a'
+                            size='md'
+                            href="/#/clothes"
+                            color="black"
+                            transform='uppercase'
+                    >
+                        Одежда
+                    </Text>
+                </div>
+            </Grid.Col>
+            <Grid.Col span={6}>
+                <div class="navi">
+                    <Text
+                            variant='link'
+                            root='a'
+                            size='md'
+                            href="/#/outfits"
+                            color="black"
+                            transform='uppercase'
+                    >
+                        Аутфиты
+                    </Text>
+                </div>
+            </Grid.Col>
+            <Grid.Col span={6}>
+                <div class="navi">
+                    <Text
+                            variant='link'
+                            root='a'
+                            size='md'
+                            href="/#/capsules"
+                            color="black"
+                            transform='uppercase'
+                    >
+                        Капсулы
+                    </Text>
+                </div>
+            </Grid.Col>
+        </Grid>
     </div>
 
 
@@ -189,6 +189,10 @@
         padding-bottom: 5rem;
         margin: 8px;
         height: auto;
+    }
+
+    :global(body) {
+        margin: 0;
     }
 
     :global(body) {
