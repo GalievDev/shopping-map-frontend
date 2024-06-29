@@ -195,6 +195,10 @@
         margin: 0;
     }
 
+    :global(body) {
+		margin: 0;
+	}
+
     .header {
         font-family: "Garamond", serif;
         margin-top: 27px;
