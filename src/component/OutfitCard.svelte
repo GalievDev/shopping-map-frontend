@@ -13,7 +13,7 @@
     let error: string | null = null;
     let opened = false;
     let outfit: Outfits | null = null;
-    let clothes: CLothes[] | [] = []
+    let clothes: Clothes[] | [] = []
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {

@@ -1,19 +1,38 @@
 <script lang="ts">
-    import { Button, Flex, Grid, Input, Card, Image} from '@svelteuidev/core';
+    import { Button, Flex, Grid, Input, Card, Image, BackgroundImage} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
-    export let vertical_item_and_capslue = '130px'
-    export let horizontal_item_and_capslue = '230px'
-    export let vertical_outfit = '100px'
-    export let horizontal_outfit = '110px'
+    let vertical_item_and_capslue = '130px'
+    let horizontal_item_and_capslue = '230px'
 </script>
-<h1>Главная</h1>
+<h1>Home page</h1>
 <style>
     .grid {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr; /* Сетка из 3 колонок */
         gap: 50px; /* Пространство между элементами сетки */
-        margin-top: 15px; /* Отступ сверху для сетки, чтобы отделить её от стека */
-        margin-left: 60px;
+        margin-top: 25px; /* Отступ сверху для сетки, чтобы отделить её от стека */
+        margin-left: 42px;
+    }
+    .backgroundImage_add_item{
+        background-image: url('../assets/card_1.jpg');
+        background-size: cover;
+        border-radius: 12px;
+        outline: none;
+        border: none;
+
+    }
+    .backgroundImage_create_new_capsule{
+        background-image: url('../assets/card_2.jpg');
+        background-size: cover;
+        border-radius: 12px;
+        outline: none;
+        border: none;
+    }
+    .custom_button{
+        box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+        color: white;
+        font-size: 20px;
+
     }
 </style>
 <Grid span={10}>
@@ -25,24 +44,12 @@
                styles={{ rightSection: { pointerEvents: 'none' } }}>
         </Input>
     </Grid.Col>
-    <h1 class="grid">Аутфиты</h1>
 </Grid>
 <div class="grid">
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    <button class="backgroundImage_add_item custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
         Добавить предмет
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};" >
-        1
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        2
-    </Button>
-    <Button style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};" color="gray">
+    </button>
+    <button class="backgroundImage_create_new_capsule custom_button" style="padding: {vertical_item_and_capslue} {horizontal_item_and_capslue};">
         Создать новую капсулу
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        3
-    </Button>
-    <Button style="padding: {vertical_outfit} {horizontal_outfit};">
-        4</Button>
+    </button>
 </div>

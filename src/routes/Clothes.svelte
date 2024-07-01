@@ -26,7 +26,7 @@
             if (!response.ok) {
                 throw new Error('Failed to fetch image: ' + response.statusText);
             }
-            return await response.json();e
+            return await response.json();
         } catch (err: any) {
             error = err.message;
             return [];
@@ -62,7 +62,7 @@
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                image = (reader.result as string).split(',')[1]; // Remove the data URL prefix
+                image = (reader.result as string).split(',')[1];
             };
             reader.readAsDataURL(file);
         }
@@ -118,7 +118,7 @@
             <Input root="button">Button input</Input>
             <Input root="select" bind:value={type} required>
                 {#each Object.values(ClothType) as clothType}
-                    <option value={clothType}>{clothType}</option>
+                    <option value={type}>{clothType}</option>
                 {/each}
             </Input>
             <Text>Загрузите фото:</Text>
