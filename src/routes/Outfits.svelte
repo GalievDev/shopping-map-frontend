@@ -90,28 +90,28 @@
 </script>
 
 <h1>Каталог аутфитов</h1>
-<Modal centered {opened} on:close={() => opened = false} title="Добавление аутфита"
-       overlayOpacity={0.55}
-       overlayBlur={3}
->
-    <form on:submit={(e) => { e.preventDefault(); sendOutfitRequest(); }}>
-        <Flex gap="md" direction="column">
-            <Text>Название:</Text>
-            <Input bind:value={name} required></Input>
-            <Text>Описание:</Text>
-            <Input bind:value={description} required></Input>
-            <Text>Добавить одежду:</Text>
-            <Flex gap="sm" direction="row">
-                <Input bind:value={clothName} placeholder="Найти по названию" required></Input>
-                <Button color=#deccb7 type="button" on:click={addCloth}>Добавить</Button>
-            </Flex>
+<!--<Modal centered {opened} on:close={() => opened = false} title="Добавление аутфита"-->
+<!--       overlayOpacity={0.55}-->
+<!--       overlayBlur={3}-->
+<!--&gt;-->
+<!--    <form on:submit={(e) => { e.preventDefault(); sendOutfitRequest(); }}>-->
+<!--        <Flex gap="md" direction="column">-->
+<!--            <Text>Название:</Text>-->
+<!--            <Input bind:value={name} required></Input>-->
+<!--            <Text>Описание:</Text>-->
+<!--            <Input bind:value={description} required></Input>-->
+<!--            <Text>Добавить одежду:</Text>-->
+<!--            <Flex gap="sm" direction="row">-->
+<!--                <Input bind:value={clothName} placeholder="Найти по названию" required></Input>-->
+<!--                <Button color=#deccb7 type="button" on:click={addCloth}>Добавить</Button>-->
+<!--            </Flex>-->
 
-            <Text>Одежда:</Text>
+<!--            <Text>Одежда:</Text>-->
 
-            <Button color=#deccb7 type="submit">Подтвердить</Button>
-        </Flex>
-    </form>
-</Modal>
+<!--            <Button color=#deccb7 type="submit">Подтвердить</Button>-->
+<!--        </Flex>-->
+<!--    </form>-->
+<!--</Modal>-->
 
 <Grid>
     <Grid.Col span={1} offset={2}>

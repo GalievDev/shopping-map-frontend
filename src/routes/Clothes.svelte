@@ -5,7 +5,7 @@
     import type ClothRequest from "../dto/ClothRequest";
     import {ClothType} from "../dto/ClothType";
     import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
-    import { MagnifyingGlass } from 'radix-icons-svelte';
+    import {MagnifyingGlass} from 'radix-icons-svelte';
 
     let clothes: Clothes[] | [] = []
     let opened = false;
@@ -34,6 +34,7 @@
     }
 
     async function sendClothRequest() {
+        opened = false;
         const clothRequest: ClothRequest = {
             name,
             link,
@@ -50,9 +51,11 @@
                 },
                 body: JSON.stringify(clothRequest),
             });
-            console.log(JSON.stringify(clothRequest))
-        } catch (error) {
-            console.error('Error: ', error)
+            if (response.ok) {
+                location.reload()
+            }
+        } catch (err: any) {
+            error = err;
         }
 
     }
@@ -82,16 +85,10 @@
         });
     }
 
-    function close() {
-        opened = false;
-    }
-
     async function searchClothes() {
         if (searchQuery === '') {
-            // If search query is empty, show all clothes
             clothes = await fetchClothes();
         } else {
-            // Filter clothes based on search query
             clothes = await fetchClothes().then(allClothes => {
                 return allClothes.filter(cloth => {
                     return cloth.name.toLowerCase().includes(searchQuery.toLowerCase());
@@ -106,26 +103,24 @@
        overlayOpacity={0.55}
        overlayBlur={3}
 >
-    <form on:submit={() => sendClothRequest()}>
-        <Flex gap="md" direction="column">
-            <Text>Название:</Text>
-            <Input bind:value={name} required></Input>
-            <Text>Ссылка:</Text>
-            <Input bind:value={link} required></Input>
-            <Text>Описание:</Text>
-            <Input bind:value={description} required></Input>
-            <Text>Выберите тип:</Text>
-            <Input root="button">Button input</Input>
-            <Input root="select" bind:value={type} required>
-                {#each Object.values(ClothType) as clothType}
-                    <option value={type}>{clothType}</option>
-                {/each}
-            </Input>
-            <Text>Загрузите фото:</Text>
-            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
-            <Button color=#deccb7 type="submit">Подтвердить</Button>
-        </Flex>
-    </form>
+    <Flex gap="md" direction="column">
+        <Text>Название:</Text>
+        <Input bind:value={name} required></Input>
+        <Text>Ссылка:</Text>
+        <Input bind:value={link} required></Input>
+        <Text>Описание:</Text>
+        <Input bind:value={description} required></Input>
+        <Text>Выберите тип:</Text>
+        <Input root="button">Button input</Input>
+        <Input root="select" bind:value={type} required>
+            {#each Object.values(ClothType) as clothType}
+                <option value={clothType}>{clothType}</option>
+            {/each}
+        </Input>
+        <Text>Загрузите фото:</Text>
+        <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
+        <Button color=#deccb7 on:click={() => sendClothRequest()}>Подтвердить</Button>
+    </Flex>
 </Modal>
 
 
@@ -133,6 +128,7 @@
     <Grid.Col span={1} offset={2}>
         <Button color=#deccb7 ripple radius="md" on:click={sortAlphabetically}>Сортировка</Button>
     </Grid.Col>
+
 
     <Grid.Col span={2} offset={2}>
         <Input
