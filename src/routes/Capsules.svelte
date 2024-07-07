@@ -1,28 +1,26 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import ClothCard from "../component/ClothCard.svelte";
-    import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
+    import {Button, Checkbox, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
     import {MagnifyingGlass} from 'radix-icons-svelte';
     import type Capsules from "../dto/Capsules";
-    import type CapsuleRequest from "../dto/CapsuleRequest";
     import CapsuleCard from "../component/CapsuleCard.svelte";
+    import type Outfits from "../dto/Outfits";
+    import type CapsuleRequest from "../dto/CapsuleRequest";
 
-    const url = 'http://10.90.136.54:5252/api/v1/capsules';
+    const url = 'http://10.90.136.54:5252/api/v1';
     let capsules: Capsules[] | [] = [];
+    let outfits: Outfits[] | [] = [];
     let error: string | null = null;
     let opened = false;
 
     let name = '';
     let description = '';
-    let outfits: number[] | [] = [];
-    let outfitName = '';
-    let outfitDescription = '';
-    let image_id: number
+    let outfits_ids: Set<number> = new Set();
     let searchQuery = '';
 
     async function fetchCapsules(): Promise<Capsules[] | []> {
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${url}/capsules`);
             if (!response.ok) {
                 throw new Error('Failed to fetch capsules: ' + response.statusText);
             }
@@ -46,33 +44,54 @@
         }
     }
 
+    async function fetchOutfits(): Promise<Outfits[] | []> {
+        try {
+            const response = await fetch(`${url}/outfits`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch outfits: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return [];
+        }
+    }
+
     async function sendCapsuleRequest() {
         const capsuleRequest: CapsuleRequest = {
             name,
             description,
-            outfits
+            outfits: Array.from(outfits_ids)
         };
 
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${url}/capsules`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(capsuleRequest),
             });
-            console.log(JSON.stringify(capsuleRequest));
+            if (response.ok) {
+                outfits = await fetchOutfits();
+                opened = false;
+            }
         } catch (error) {
             console.error('Error: ', error);
         }
     }
 
-    function addOutfit() {
-
+    function toggleSelection(clothId: number) {
+        if (outfits_ids.has(clothId)) {
+            outfits_ids.delete(clothId);
+        } else {
+            outfits_ids.add(clothId);
+        }
     }
 
-
     onMount(async () => {
+        outfits = await fetchOutfits();
         capsules = await fetchCapsules();
     });
 
@@ -90,24 +109,17 @@
        overlayOpacity={0.55}
        overlayBlur={3}
 >
-    <form on:submit={(e) => { e.preventDefault(); sendCapsuleRequest(); }}>
-        <Flex gap="md" direction="column">
-            <Text>Название:</Text>
-            <Input bind:value={name} required></Input>
-            <Text>Описание:</Text>
-            <Input bind:value={description} required></Input>
-            <Text>Добавить аутфиты:</Text>
-            <Flex gap="sm" direction="row">
-                <Input bind:value={outfitName} placeholder="Название" required></Input>
-                <Input bind:value={outfitDescription} placeholder="Описание" required></Input>
-                <Button type="button" on:click={addOutfit}>Добавить</Button>
-            </Flex>
-
-            <Text>Аутфиты:</Text>
-
-            <Button color=#deccb7 type="submit">Подтвердить</Button>
+    <Flex gap="md" direction="column">
+        <Text>Название:</Text>
+        <Input bind:value={name} required></Input>
+        <Text>Описание:</Text>
+        <Input bind:value={description} required></Input>
+        <Text>Выберите образы для капсулы:</Text>
+        {#each outfits as outfit}
+            <Checkbox checked={false} label="{outfit.name}" on:change={() => toggleSelection(outfit.id)} />
+        {/each}
+        <Button color=#deccb7 type="submit" on:click={() => sendCapsuleRequest()}>Подтвердить</Button>
         </Flex>
-    </form>
 </Modal>
 
 <Grid>

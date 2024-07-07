@@ -14,6 +14,7 @@
     let opened = false;
     let capsule: Capsules | null = null;
     let outfits: Outfits[] = []
+    let images: Record<number, ImageDTO | null> = {};
 
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
@@ -46,7 +47,7 @@
         try {
             const response = await fetch(`${url}/capsules/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                throw new Error('Failed to fetch capsule: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -58,12 +59,15 @@
     async function fetchCapsule(id: number) {
         opened = true;
         capsule = await fetchCapsuleId(id);
-        image = await fetchImage(capsule?.id!!)
-        for(const id of outfits_ids) {
-            const outfit = await fetchOutfit(id)
-            if (outfit != null) {
-                outfits.push(outfit)
-            }
+        if (capsule) {
+            image = await fetchImage(capsule.image_id);
+        }
+        const fetchedOutfits = await Promise.all(outfits_ids.map(fetchOutfit));
+        outfits = fetchedOutfits.filter(Boolean);
+        for (const outfit of outfits) {
+            fetchImage(outfit.image_id).then(img => {
+                images = { ...images, [outfit.image_id]: img };
+            });
         }
     }
 
@@ -83,7 +87,9 @@
             {error}
         </Alert>
     {:else if image}
-        <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+        <Flex justify="center">
+            <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+        </Flex>
     {:else}
         <Loader></Loader>
     {/if}
@@ -101,8 +107,12 @@
                 <Text size='md'>
                     Описание: {description}
                 </Text>
+                <Text size='md'>
+                    Набор аутфитов:
+                </Text>
                 {#each outfits as outfit}
                     <Card>
+                        <Image src="{`data:image/png;base64,${images[outfit.image_id]?.bytes}`}"></Image>
                         <Text>
                             {outfit.name}
                         </Text>
