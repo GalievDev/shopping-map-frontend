@@ -15,4 +15,11 @@ shopping-map-frontend 1.1.2 Footer
 shopping-map-frontend 1.1.3 Homepage buttons 
 shopping-map-frontend 1.1.4 API url 
 shopping-map-frontend 1.1.5 Buttons and search on Capsules page
-shopping-map-frontend 1.1.6 Image formating
+shopping-map-frontend 1.1.6 Image centering
+shopping-map-frontend 1.1.7 Outfits page
+shopping-map-frontend 1.1.8 Footer and Header design
+shopping-map-frontend 1.1.9 Changelog and README 
+
+Fixed
+
+shopping-map-frontend 1.1.8 Bug with adding clothes
