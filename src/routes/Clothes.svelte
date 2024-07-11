@@ -1,24 +1,23 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
     import type Clothes from "../dto/Clothes";
     import type ClothRequest from "../dto/ClothRequest";
-    import {ClothType} from "../dto/ClothType";
-    import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
-    import {MagnifyingGlass} from 'radix-icons-svelte';
+    import { ClothType } from "../dto/ClothType";
+    import { Button, Flex, Grid, Input, Modal, Text } from '@svelteuidev/core';
+    import { MagnifyingGlass } from 'radix-icons-svelte';
 
-    let clothes: Clothes[] | [] = []
+    let clothes: Clothes[] | [] = [];
     let opened = false;
 
-    const url = 'http://10.90.136.54:5252/api/v1/clothes'
-    let error: string | null = null
+    const url = 'http://10.90.136.54:5252/api/v1/clothes';
+    let error: string | null = null;
     let name = '';
     let link = '';
     let description = '';
     let type: ClothType = ClothType.NONE;
     let image = '';
     let searchQuery = '';
-
 
     async function fetchClothes(): Promise<Clothes[] | []> {
         try {
@@ -34,7 +33,6 @@
     }
 
     async function sendClothRequest() {
-        opened = false;
         const clothRequest: ClothRequest = {
             name,
             link,
@@ -52,12 +50,14 @@
                 body: JSON.stringify(clothRequest),
             });
             if (response.ok) {
-                location.reload()
+                location.reload();
             }
         } catch (err: any) {
             error = err;
+        } finally {
+            opened = false;
+            resetForm();
         }
-
     }
 
     function handleFileChange(event: Event) {
@@ -71,11 +71,9 @@
         }
     }
 
-
     onMount(async () => {
-        clothes = await fetchClothes()
-    })
-
+        clothes = await fetchClothes();
+    });
 
     function sortAlphabetically() {
         clothes.sort((a: any, b: any) => {
@@ -96,6 +94,19 @@
             });
         }
     }
+
+    function resetForm() {
+        name = '';
+        link = '';
+        description = '';
+        type = ClothType.NONE;
+        image = '';
+    }
+
+    function openModal() {
+        resetForm();
+        opened = true;
+    }
 </script>
 
 <h1>Одежда</h1>
@@ -111,7 +122,6 @@
         <Text>Описание:</Text>
         <Input bind:value={description} required></Input>
         <Text>Выберите тип:</Text>
-        <Input root="button">Button input</Input>
         <Input root="select" bind:value={type} required>
             {#each Object.values(ClothType) as clothType}
                 <option value={clothType}>{clothType}</option>
@@ -122,7 +132,6 @@
         <Button color=#deccb7 on:click={() => sendClothRequest()}>Подтвердить</Button>
     </Flex>
 </Modal>
-
 
 <Grid>
     <Grid.Col span={1} offset={2}>
@@ -141,7 +150,7 @@
         </Input>
     </Grid.Col>
     <Grid.Col span={1} offset={2}>
-        <Button on:click={() => (opened = true)} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
+        <Button on:click={openModal} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
     </Grid.Col>
 </Grid>
 <Grid>

@@ -59,7 +59,7 @@
                 body: JSON.stringify(outfitRequest),
             });
             if (response.ok) {
-                outfits = await fetchOutfits();
+                location.reload();
                 opened = false;
             }
         } catch (error) {

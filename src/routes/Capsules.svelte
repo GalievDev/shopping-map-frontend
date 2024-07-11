@@ -74,7 +74,7 @@
                 body: JSON.stringify(capsuleRequest),
             });
             if (response.ok) {
-                outfits = await fetchOutfits();
+                location.reload();
                 opened = false;
             }
         } catch (error) {
