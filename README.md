@@ -22,10 +22,21 @@ Clone the repository:
 ```
 git clone https://gitlab.pg.innopolis.university/ise25/shopping-map-frontend
 ```
-Open and run with command:
+Install the dependencies:
 ```
-./gradlew build run
+npm install
 ```
+For running dev server:
+```
+npm run dev
+```
+
+Build:
+```
+npm run build
+```
+
+Builded files that stored in `./dist` folder that can be hosted.
 
 ## Technologies used
 * ![Image](https://img.shields.io/badge/SVELTE-11?style=for-the-badge&logo=svelte&logoColor=%23ffffff&logoSize=auto&labelColor=%23FF3E00&color=%23FF3E00&link=https%3A%2F%2Fsvelte.dev%2F
