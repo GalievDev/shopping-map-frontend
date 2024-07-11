@@ -138,6 +138,7 @@
         <Button color=#deccb7 ripple radius="md" on:click={sortAlphabetically}>Сортировка</Button>
     </Grid.Col>
 
+
     <Grid.Col span={2} offset={2}>
         <Input
                 bind:value={searchQuery}
