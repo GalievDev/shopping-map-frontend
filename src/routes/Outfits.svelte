@@ -150,4 +150,11 @@
     {/each}
 </Grid>
 
-
+<style>
+    h1 {
+        font-family: "Garamond", serif;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        margin-left: 60px;
+    }
+</style>

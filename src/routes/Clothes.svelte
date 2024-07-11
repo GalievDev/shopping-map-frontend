@@ -8,7 +8,6 @@
     import { MagnifyingGlass } from 'radix-icons-svelte';
 
     let clothes: Clothes[] | [] = [];
-    let opened = false;
 
     const url = 'http://10.90.136.54:5252/api/v1/clothes';
     let error: string | null = null;
@@ -29,45 +28,6 @@
         } catch (err: any) {
             error = err.message;
             return [];
-        }
-    }
-
-    async function sendClothRequest() {
-        const clothRequest: ClothRequest = {
-            name,
-            link,
-            description,
-            type,
-            image
-        };
-
-        try {
-            const response = await fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(clothRequest),
-            });
-            if (response.ok) {
-                location.reload();
-            }
-        } catch (err: any) {
-            error = err;
-        } finally {
-            opened = false;
-            resetForm();
-        }
-    }
-
-    function handleFileChange(event: Event) {
-        const file = (event.target as HTMLInputElement).files?.[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                image = (reader.result as string).split(',')[1];
-            };
-            reader.readAsDataURL(file);
         }
     }
 
@@ -95,43 +55,9 @@
         }
     }
 
-    function resetForm() {
-        name = '';
-        link = '';
-        description = '';
-        type = ClothType.NONE;
-        image = '';
-    }
-
-    function openModal() {
-        resetForm();
-        opened = true;
-    }
 </script>
 
-<h1>Одежда</h1>
-<Modal centered {opened} on:close={() => opened = false} title="Добавление одежды"
-       overlayOpacity={0.55}
-       overlayBlur={3}
->
-    <Flex gap="md" direction="column">
-        <Text>Название:</Text>
-        <Input bind:value={name} required></Input>
-        <Text>Ссылка:</Text>
-        <Input bind:value={link} required></Input>
-        <Text>Описание:</Text>
-        <Input bind:value={description} required></Input>
-        <Text>Выберите тип:</Text>
-        <Input root="select" bind:value={type} required>
-            {#each Object.values(ClothType) as clothType}
-                <option value={clothType}>{clothType}</option>
-            {/each}
-        </Input>
-        <Text>Загрузите фото:</Text>
-        <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
-        <Button color=#deccb7 on:click={() => sendClothRequest()}>Подтвердить</Button>
-    </Flex>
-</Modal>
+<h1>Каталог одежды</h1>
 
 <Grid>
     <Grid.Col span={1} offset={2}>
@@ -151,7 +77,7 @@
         </Input>
     </Grid.Col>
     <Grid.Col span={1} offset={2}>
-        <Button on:click={openModal} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
+        <Button href="/#/create_cloth" color=#deccb7 ripple radius="md" >Добавить одежду</Button>
     </Grid.Col>
 </Grid>
 <Grid>
@@ -161,3 +87,12 @@
         </Grid.Col>
     {/each}
 </Grid>
+
+<style>
+    h1 {
+        font-family: "Garamond", serif;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        margin-left: 60px;
+    }
+</style>
