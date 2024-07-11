@@ -1,6 +1,5 @@
 <script lang="ts">
     import Router from "svelte-spa-router";
-    import Home from "./routes/Home.svelte";
     import NotFound from "./routes/NotFound.svelte";
     import Clothes from "./routes/Clothes.svelte";
     import Outfits from "./routes/Outfits.svelte";
@@ -9,7 +8,6 @@
     import CreateCloth from "./routes/CreateCloth.svelte";
 
     let routes = {
-        // "/": Home,
         "/": Clothes,
         "/create_cloth": CreateCloth,
         "/outfits": Outfits,
