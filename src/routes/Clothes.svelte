@@ -1,24 +1,23 @@
 <script lang="ts">
-    import {onMount} from "svelte";
+    import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
     import type Clothes from "../dto/Clothes";
     import type ClothRequest from "../dto/ClothRequest";
-    import {ClothType} from "../dto/ClothType";
-    import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
+    import { ClothType } from "../dto/ClothType";
+    import { Button, Flex, Grid, Input, Modal, Text } from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
 
-    let clothes: Clothes[] | [] = []
+    let clothes: Clothes[] | [] = [];
     let opened = false;
 
-    const url = 'http://10.90.136.54:5252/api/v1/clothes'
-    let error: string | null = null
+    const url = 'http://10.90.136.54:5252/api/v1/clothes';
+    let error: string | null = null;
     let name = '';
     let link = '';
     let description = '';
     let type: ClothType = ClothType.NONE;
     let image = '';
     let searchQuery = '';
-
 
     async function fetchClothes(): Promise<Clothes[] | []> {
         try {
@@ -50,11 +49,15 @@
                 },
                 body: JSON.stringify(clothRequest),
             });
-            console.log(JSON.stringify(clothRequest))
-        } catch (error) {
-            console.error('Error: ', error)
+            if (response.ok) {
+                location.reload();
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+            opened = false;
+            resetForm();
         }
-
     }
 
     function handleFileChange(event: Event) {
@@ -68,11 +71,9 @@
         }
     }
 
-
     onMount(async () => {
-        clothes = await fetchClothes()
-    })
-
+        clothes = await fetchClothes();
+    });
 
     function sortAlphabetically() {
         clothes.sort((a: any, b: any) => {
@@ -82,22 +83,29 @@
         });
     }
 
-    function close() {
-        opened = false;
-    }
-
     async function searchClothes() {
         if (searchQuery === '') {
-            // If search query is empty, show all clothes
             clothes = await fetchClothes();
         } else {
-            // Filter clothes based on search query
             clothes = await fetchClothes().then(allClothes => {
                 return allClothes.filter(cloth => {
                     return cloth.name.toLowerCase().includes(searchQuery.toLowerCase());
                 });
             });
         }
+    }
+
+    function resetForm() {
+        name = '';
+        link = '';
+        description = '';
+        type = ClothType.NONE;
+        image = '';
+    }
+
+    function openModal() {
+        resetForm();
+        opened = true;
     }
 </script>
 
@@ -106,33 +114,30 @@
        overlayOpacity={0.55}
        overlayBlur={3}
 >
-    <form on:submit={() => sendClothRequest()}>
-        <Flex gap="md" direction="column">
-            <Text>Название:</Text>
-            <Input bind:value={name} required></Input>
-            <Text>Ссылка:</Text>
-            <Input bind:value={link} required></Input>
-            <Text>Описание:</Text>
-            <Input bind:value={description} required></Input>
-            <Text>Выберите тип:</Text>
-            <Input root="button">Button input</Input>
-            <Input root="select">
-                {#each Object.values(ClothType) as clothType}
-                    <option value={clothType}>{clothType}</option>
-                {/each}
-            </Input>
-            <Text>Загрузите фото:</Text>
-            <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
-            <Button color=#deccb7 type="submit">Подтвердить</Button>
-        </Flex>
-    </form>
+    <Flex gap="md" direction="column">
+        <Text>Название:</Text>
+        <Input bind:value={name} required></Input>
+        <Text>Ссылка:</Text>
+        <Input bind:value={link} required></Input>
+        <Text>Описание:</Text>
+        <Input bind:value={description} required></Input>
+        <Text>Выберите тип:</Text>
+        <Input root="select" bind:value={type} required>
+            {#each Object.values(ClothType) as clothType}
+                <option value={clothType}>{clothType}</option>
+            {/each}
+        </Input>
+        <Text>Загрузите фото:</Text>
+        <Input type="file" accept="image/*" on:change={handleFileChange} required></Input>
+        <Button color=#deccb7 on:click={() => sendClothRequest()}>Подтвердить</Button>
+    </Flex>
 </Modal>
-
 
 <Grid>
     <Grid.Col span={1} offset={2}>
         <Button color=#deccb7 ripple radius="md" on:click={sortAlphabetically}>Сортировка</Button>
     </Grid.Col>
+
 
     <Grid.Col span={2} offset={2}>
         <Input
@@ -146,7 +151,7 @@
         </Input>
     </Grid.Col>
     <Grid.Col span={1} offset={2}>
-        <Button on:click={() => (opened = true)} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
+        <Button on:click={openModal} color=#deccb7 ripple radius="md" >Добавить одежду</Button>
     </Grid.Col>
 </Grid>
 <Grid>

@@ -1,32 +1,26 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Button, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
+    import {Button, Checkbox, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
     import {MagnifyingGlass} from 'radix-icons-svelte';
     import type Outfits from "../dto/Outfits";
-    import OutfitCard from "../component/CapsuleCard.svelte";
+    import OutfitCard from "../component/OutfitCard.svelte";
+    import type Clothes from "../dto/Clothes";
+    import type {OutfitRequest} from "../dto/OutfitRequest";
 
-    interface OutfitRequest {
-    name: string,
-    description: string,
-    clothes: number[]
-}
-
-    const url = 'http://10.90.136.54:5252/api/v1/outfits';
+    const url = 'http://10.90.136.54:5252/api/v1';
+    let clothes: Clothes[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;
     let opened = false;
 
     let name = '';
     let description = '';
-    let clothes: number[] | [] = [];
-    let clothName = '';
-    let clothDescription = '';
-    let image_id: number
+    let clothes_ids: Set<number> = new Set();
     let searchQuery = '';
 
     async function fetchOutfits(): Promise<Outfits[] | []> {
         try {
-            const response = await fetch(url);
+            const response = await fetch(`${url}/outfits`);
             if (!response.ok) {
                 throw new Error('Failed to fetch outfits: ' + response.statusText);
             }
@@ -54,29 +48,48 @@
         const outfitRequest: OutfitRequest = {
             name,
             description,
-            clothes
+            clothes: Array.from(clothes_ids)
         };
-
         try {
-            const response = await fetch(url, {
+            const response = await fetch(`${url}/outfits`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(outfitRequest),
             });
-            console.log(JSON.stringify(outfitRequest));
+            if (response.ok) {
+                location.reload();
+                opened = false;
+            }
         } catch (error) {
             console.error('Error: ', error);
         }
     }
 
-    function addOutfit() {
-
+    async function fetchClothes(): Promise<Clothes[] | []> {
+        try {
+            const response = await fetch(`${url}/clothes`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch image: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            return [];
+        }
     }
 
+    function toggleSelection(clothId: number) {
+        if (clothes_ids.has(clothId)) {
+            clothes_ids.delete(clothId);
+        } else {
+            clothes_ids.add(clothId);
+        }
+    }
 
     onMount(async () => {
+        clothes = await fetchClothes();
         outfits = await fetchOutfits();
     });
 
@@ -94,24 +107,18 @@
        overlayOpacity={0.55}
        overlayBlur={3}
 >
-    <form on:submit={(e) => { e.preventDefault(); sendOutfitRequest(); }}>
-        <Flex gap="md" direction="column">
-            <Text>Название:</Text>
-            <Input bind:value={name} required></Input>
-            <Text>Описание:</Text>
-            <Input bind:value={description} required></Input>
-            <Text>Добавить аутфиты:</Text>
-            <Flex gap="sm" direction="row">
-                <Input bind:value={clothName} placeholder="Название" required></Input>
-                <Input bind:value={clothDescription} placeholder="Описание" required></Input>
-                <Button type="button" on:click={addOutfit}>Добавить</Button>
-            </Flex>
+    <Flex gap="md" direction="column">
+        <Text>Название:</Text>
+        <Input bind:value={name} required></Input>
+        <Text>Описание:</Text>
+        <Input bind:value={description} required></Input>
 
-            <Text>Одежда:</Text>
-
-            <Button color=#deccb7 type="submit">Подтвердить</Button>
-        </Flex>
-    </form>
+        <Text>Выберите одежду в образ: </Text>
+        {#each clothes as cloth}
+            <Checkbox checked={false} label="{cloth.name}" on:change={() => toggleSelection(cloth.id)} />
+        {/each}
+        <Button color=#deccb7 on:click={() => sendOutfitRequest()}>Подтвердить</Button>
+    </Flex>
 </Modal>
 
 <Grid>
