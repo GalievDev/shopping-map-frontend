@@ -6,12 +6,16 @@
     import Capsules from "./routes/Capsules.svelte";
     import {Grid, SvelteUIProvider, Text} from '@svelteuidev/core';
     import CreateCloth from "./routes/CreateCloth.svelte";
+    import CreateOutfit from "./routes/CreateOutfit.svelte";
+    import CreateCapsule from "./routes/CreateCapsule.svelte";
 
     let routes = {
         "/": Clothes,
         "/create_cloth": CreateCloth,
         "/outfits": Outfits,
+        "/create_outfit": CreateOutfit,
         "/capsules": Capsules,
+        "/create_capsule": CreateCapsule,
 
         "*": NotFound
     }
