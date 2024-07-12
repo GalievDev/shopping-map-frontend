@@ -45,7 +45,7 @@
                 body: JSON.stringify(capsuleRequest),
             });
             if (response.ok) {
-                location.reload();
+                location.replace('/#/capsules/');
                 opened = false;
             }
         } catch (error) {

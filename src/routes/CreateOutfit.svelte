@@ -30,7 +30,7 @@
                 body: JSON.stringify(outfitRequest),
             });
             if (response.ok) {
-                location.reload();
+                location.replace('/#/outfits/');
                 opened = false;
             }
         } catch (error) {
