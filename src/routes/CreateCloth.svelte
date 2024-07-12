@@ -4,6 +4,7 @@
     import { Button, Flex, Input, Text } from '@svelteuidev/core';
     import type ClothRequest from "../dto/ClothRequest";
 
+    const url = 'http://10.90.136.54:5252/api/v1/clothes';
     let clothes: Clothes[] | [] = [];
 
     let name = '';
@@ -12,6 +13,7 @@
     let type: ClothType = ClothType.NONE;
     let image = '';
     let opened = false;
+    let error: string | null = null;
 
     async function sendClothRequest() {
         const clothRequest: ClothRequest = {
@@ -31,7 +33,7 @@
                 body: JSON.stringify(clothRequest),
             });
             if (response.ok) {
-                location.reload();
+                location.replace('/#/');
             }
         } catch (err: any) {
             error = err;
@@ -100,7 +102,7 @@
         margin-left: 60px;
     }
     .container {
-        width: 70%;
+        width: 60%;
         margin: 60px auto 0;
         padding: 20px;
         border: 1px solid #ccc;
