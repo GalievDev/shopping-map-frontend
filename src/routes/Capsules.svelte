@@ -105,22 +105,6 @@
 </script>
 
 <h1>Каталог капсул</h1>
-<Modal centered {opened} on:close={() => opened = false} title="Добавление капсулы"
-       overlayOpacity={0.55}
-       overlayBlur={3}
->
-    <Flex gap="md" direction="column">
-        <Text>Название:</Text>
-        <Input bind:value={name} required></Input>
-        <Text>Описание:</Text>
-        <Input bind:value={description} required></Input>
-        <Text>Выберите образы для капсулы:</Text>
-        {#each outfits as outfit}
-            <Checkbox checked={false} label="{outfit.name}" on:change={() => toggleSelection(outfit.id)} />
-        {/each}
-        <Button color=#deccb7 type="submit" on:click={() => sendCapsuleRequest()}>Подтвердить</Button>
-        </Flex>
-</Modal>
 
 <Grid>
     <Grid.Col span={1} offset={2}>
@@ -139,7 +123,7 @@
         </Input>
     </Grid.Col>
     <Grid.Col span={1} offset={2}>
-        <Button on:click={() => (opened = true)} color=#deccb7 ripple radius="md" >Добавить капсулу</Button>
+        <Button href="/#/create_capsule" color=#deccb7 ripple radius="md" >Добавить капсулу</Button>
     </Grid.Col>
 </Grid>
 

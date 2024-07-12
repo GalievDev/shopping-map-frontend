@@ -102,7 +102,7 @@
         margin-left: 60px;
     }
     .container {
-        width: 70%;
+        width: 60%;
         margin: 60px auto 0;
         padding: 20px;
         border: 1px solid #ccc;
