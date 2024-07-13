@@ -17,7 +17,8 @@ uploaded clothes or outfits correspondingly.
 * Modal for adding clothes/outfits/capsules
 * Modal with key information about cloth/outfit/capsule
 
-## Installation
+## Deployement
+Section **for customer**
 Clone the repository:
 ```
 git clone https://gitlab.pg.innopolis.university/ise25/shopping-map-frontend
