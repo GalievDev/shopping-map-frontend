@@ -19,6 +19,7 @@ uploaded clothes or outfits correspondingly.
 
 ## Deployement
 Section **for customer**
+
 Clone the repository:
 ```
 git clone https://gitlab.pg.innopolis.university/ise25/shopping-map-frontend
