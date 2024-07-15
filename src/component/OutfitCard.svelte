@@ -83,7 +83,7 @@
         </Alert>
     {:else if image}
         <Flex justify="center">
-            <Image justify="center" width={460} height={200} fit='contain' src={`data:image/png;base64,${image?.bytes}`} alt={image?.name}></Image>
+            <Image justify="center" width={360} height={400} fit='contain' src={`data:image/png;base64,${image?.bytes}`} alt={image?.name}></Image>
         </Flex>
     {:else}
         <Loader></Loader>

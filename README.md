@@ -5,7 +5,7 @@
 This is the frontend part of **shopping map app**.
 
 ## Demo video
-This is [example](https://www.youtube.com/watch?v=xDTgnpPK-lw) of work with our website.  
+This is [example](https://www.youtube.com/watch?v=j2LP6c1hC-0) of work with our website.  
 
 ## How to use
 Use of app was showed in demo video. To add a cloth user should upload all the necessary 
@@ -17,7 +17,9 @@ uploaded clothes or outfits correspondingly.
 * Modal for adding clothes/outfits/capsules
 * Modal with key information about cloth/outfit/capsule
 
-## Installation
+## Deployement
+Section **for customer**
+
 Clone the repository:
 ```
 git clone https://gitlab.pg.innopolis.university/ise25/shopping-map-frontend

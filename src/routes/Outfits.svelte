@@ -5,17 +5,14 @@
     import type Outfits from "../dto/Outfits";
     import OutfitCard from "../component/OutfitCard.svelte";
     import type Clothes from "../dto/Clothes";
-    import type {OutfitRequest} from "../dto/OutfitRequest";
 
     const url = 'http://10.90.136.54:5252/api/v1';
     let clothes: Clothes[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;
-    let opened = false;
 
     let name = '';
     let description = '';
-    let clothes_ids: Set<number> = new Set();
     let searchQuery = '';
 
     async function fetchOutfits(): Promise<Outfits[] | []> {
@@ -44,29 +41,6 @@
         }
     }
 
-    async function sendOutfitRequest() {
-        const outfitRequest: OutfitRequest = {
-            name,
-            description,
-            clothes: Array.from(clothes_ids)
-        };
-        try {
-            const response = await fetch(`${url}/outfits`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(outfitRequest),
-            });
-            if (response.ok) {
-                location.reload();
-                opened = false;
-            }
-        } catch (error) {
-            console.error('Error: ', error);
-        }
-    }
-
     async function fetchClothes(): Promise<Clothes[] | []> {
         try {
             const response = await fetch(`${url}/clothes`);
@@ -77,14 +51,6 @@
         } catch (err: any) {
             error = err.message;
             return [];
-        }
-    }
-
-    function toggleSelection(clothId: number) {
-        if (clothes_ids.has(clothId)) {
-            clothes_ids.delete(clothId);
-        } else {
-            clothes_ids.add(clothId);
         }
     }
 
@@ -103,23 +69,6 @@
 </script>
 
 <h1>Каталог аутфитов</h1>
-<Modal centered {opened} on:close={() => opened = false} title="Добавление аутфита"
-       overlayOpacity={0.55}
-       overlayBlur={3}
->
-    <Flex gap="md" direction="column">
-        <Text>Название:</Text>
-        <Input bind:value={name} required></Input>
-        <Text>Описание:</Text>
-        <Input bind:value={description} required></Input>
-
-        <Text>Выберите одежду в образ: </Text>
-        {#each clothes as cloth}
-            <Checkbox checked={false} label="{cloth.name}" on:change={() => toggleSelection(cloth.id)} />
-        {/each}
-        <Button color=#deccb7 on:click={() => sendOutfitRequest()}>Подтвердить</Button>
-    </Flex>
-</Modal>
 
 <Grid>
     <Grid.Col span={1} offset={2}>
@@ -138,7 +87,7 @@
         </Input>
     </Grid.Col>
     <Grid.Col span={1} offset={2}>
-        <Button on:click={() => (opened = true)} color=#deccb7 ripple radius="md" >Добавить аутфит</Button>
+        <Button href="/#/create_outfit" color=#deccb7 ripple radius="md" >Добавить аутфит</Button>
     </Grid.Col>
 </Grid>
 
@@ -150,4 +99,11 @@
     {/each}
 </Grid>
 
-
+<style>
+    h1 {
+        font-family: "Garamond", serif;
+        margin-top: 50px;
+        margin-bottom: 30px;
+        margin-left: 60px;
+    }
+</style>
