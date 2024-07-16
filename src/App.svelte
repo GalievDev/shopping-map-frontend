@@ -8,10 +8,12 @@
     import CreateCloth from "./routes/CreateCloth.svelte";
     import CreateOutfit from "./routes/CreateOutfit.svelte";
     import CreateCapsule from "./routes/CreateCapsule.svelte";
+    import ViewCloth from "./routes/ViewCloth.svelte";
 
     let routes = {
         "/": Clothes,
         "/create_cloth": CreateCloth,
+        "/:id": ViewCloth,
         "/outfits": Outfits,
         "/create_outfit": CreateOutfit,
         "/capsules": Capsules,
