@@ -18,7 +18,7 @@
         "/:id": ViewCloth,
         "/outfits": Outfits,
         "/create_outfit": CreateOutfit,
-        "/outfit/:id": ViewOutfit,
+        "/outfits/:id": ViewOutfit,
         "/capsules": Capsules,
         "/create_capsule": CreateCapsule,
         "/capsules/:id": ViewCapsule,
