@@ -28,6 +28,20 @@
         }
     }
 
+    async function fetchClothId(id: number): Promise<Clothes | null> {
+        try {
+            const response = await fetch(`${url}/clothes/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch cloth: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return null;
+        }
+    }
+
     async function fetchOutfitId(id: number): Promise<Outfits | null> {
         try {
             const response = await fetch(`${url}/outfits/${id}`);
@@ -42,7 +56,6 @@
     }
 
     async function fetchOutfit(id: number) {
-        opened = true;
         outfit = await fetchOutfitId(id);
         if (outfit) {
             image = await fetchImage(outfit.image_id);
@@ -58,7 +71,7 @@
 
     onMount(async () => {
         outfit = await fetchOutfit();
-        image = await fetchImage(image_id);
+        image = await fetchImage(outfit?.image_id!!);
     });
 </script>
 
@@ -84,24 +97,29 @@
         <Text size="md">
             { outfit?.name }
         </Text>
-        <Text size="xl">
-            Описание:
-        </Text>
-        <Text size="md">
-            { outfit?.description}
-        </Text>
     </Grid.Col>
     <Grid.Col>
-        <Text size='md'>
-                Набор одежды:
-            </Text>
-            {#each clothes as cloth}
-                <Card>
-                    <Image src="{`data:image/png;base64,${images[cloth.image_id]?.bytes}`}"></Image>
-                    <Text>
-                        {cloth.name}
-                    </Text>
-                </Card>
-            {/each}
+        <Flex direction="column" gap="md">
+                {#if image}
+                    <Image src={`data:image/png;base64,${image?.bytes}`} alt={image?.name}></Image>
+                {/if}
+                <Text size='xl'>
+                    Описание:
+                </Text>
+                <Text sime='md'>
+                     {outfit?.description}
+                </Text>
+                <Text size='xl'>
+                    Набор одежды:
+                </Text>
+                {#each clothes as cloth}
+                    <Card>
+                        <Image src="{`data:image/png;base64,${images[cloth.image_id]?.bytes}`}"></Image>
+                        <Text size="md">
+                            {cloth.name}
+                        </Text>
+                    </Card>
+                {/each}
+            </Flex>
     </Grid.Col>
 </Grid>
