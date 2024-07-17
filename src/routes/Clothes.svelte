@@ -2,20 +2,13 @@
     import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
     import type Clothes from "../dto/Clothes";
-    import type ClothRequest from "../dto/ClothRequest";
-    import { ClothType } from "../dto/ClothType";
-    import { Button, Flex, Grid, Input, Modal, Text } from '@svelteuidev/core';
+    import { Button, Grid, Input} from '@svelteuidev/core';
     import { MagnifyingGlass } from 'radix-icons-svelte';
 
     let clothes: Clothes[] | [] = [];
 
     const url = 'http://10.90.136.54:5252/api/v1/clothes';
     let error: string | null = null;
-    let name = '';
-    let link = '';
-    let description = '';
-    let type: ClothType = ClothType.NONE;
-    let image = '';
     let searchQuery = '';
 
     async function fetchClothes(): Promise<Clothes[] | []> {
@@ -83,7 +76,7 @@
 <Grid>
     {#each clothes as cloth (cloth.id)}
         <Grid.Col span={4}>
-            <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}" description="{cloth.description}"></ClothCard>
+            <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}"></ClothCard>
         </Grid.Col>
     {/each}
 </Grid>

@@ -5,7 +5,7 @@
     import type ImageDTO from "../dto/Image";
     import type Clothes from "../dto/Clothes";
 
-    export let cloth_id: number, image_id: number, name: string, link: string, description: string;
+    export let cloth_id: number, image_id: number, name: string, link: string;
 
     const url = 'http://10.90.136.54:5252/api/v1'
     let image: ImageDTO | null = null;
@@ -24,29 +24,6 @@
             error = err.message;
             return null;
         }
-    }
-
-    async function fetchClothId(id: number): Promise<Clothes | null> {
-        try {
-            const response = await fetch(`${url}/clothes/${id}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
-            }
-            return await response.json();
-        } catch (err: any) {
-            error = err.message;
-            return null;
-        }
-    }
-
-    async function fetchCloth(id: number) {
-        opened = true;
-        cloth = await fetchClothId(id);
-        image = await fetchImage(cloth?.id!!)
-    }
-
-    function close() {
-        opened = false;
     }
 
     onMount(async () => {
@@ -81,10 +58,10 @@
                     Тип: {cloth?.type}
                 </Text>
                 <Text size='md'>
-                    Описание: {description}
+                    Описание: {cloth?.description}
                 </Text>
 
-                <Button color=#deccb7 href="{link}" fullSize>
+                <Button color=#deccb7 href="{cloth?.link}" fullSize>
                     Показать на странице магазина
                 </Button>
             </Flex>
@@ -92,7 +69,7 @@
 
         <Grid>
             <Grid.Col span={6}>
-                <Button color=#deccb7 on:click={async () => { await fetchCloth(cloth_id) }} fullSize>
+                <Button color=#deccb7 href="/#/{cloth_id}" fullSize>
                     Показать информацию
                 </Button>
             </Grid.Col>
