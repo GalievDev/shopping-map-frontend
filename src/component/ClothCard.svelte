@@ -66,6 +66,7 @@
                 </Button>
             </Flex>
         </Modal>
+
         <Grid>
             <Grid.Col span={6}>
                 <Button color=#deccb7 href="/#/clothes/{cloth_id}" fullSize>
