@@ -2,11 +2,9 @@
     import type Clothes from "../dto/Clothes";
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
-
     export let params: [];
-
     const url = 'http://10.90.136.54:5252/api/v1';
     let error: string | null = null;
     let cloth: Clothes | null = null;
@@ -42,49 +40,36 @@
         cloth = await fetchClothId();
         image = await fetchImage(cloth?.image_id!!);
     })
-
 </script>
 
 <Grid gutter={40}>
-    <Grid.Col span={4}>
+    <Grid.Col span={6} override={{minHeight: 400}}>
         {#if error}
             <Alert icon={InfoCircled} title="Something went wrong..." color="red">
                 {error}
             </Alert>
         {:else if image}
             <Flex justify="center">
-                <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
             </Flex>
         {:else}
             <Loader></Loader>
         {/if}
     </Grid.Col>
     <Grid.Col span={4}>
-        <Text size="xl">
-            Название:
-        </Text>
-        <Text size="md">
-            { cloth?.name }
-        </Text>
-        <Text size="xl">
-            Тип:
-        </Text>
-        <Text size="md">
-            { cloth?.type }
-        </Text>
-    </Grid.Col>
-    <Grid.Col span={4}>
-        <Text size="xl">
-            Описание:
-        </Text>
-        <Text size="md">
-            { cloth?.description}
-        </Text>
-        <Text size="xl">
-            Ссылка:
-        </Text>
-        <Text size="md">
-            { cloth?.link }
-        </Text>
+        <Flex direction="column" gap="xl">
+            <Title order={1} align='center'>{cloth?.name}</Title>
+            <Text size="xl">
+                Тип: { cloth?.type }
+            </Text>
+            <Text size="xl">
+                Описание: {cloth?.description}
+            </Text>
+            <Flex justify="center">
+                <Button href={cloth?.link} color=#deccb7 align="center">
+                    Посмотреть на странице магазина
+                </Button>
+            </Flex>
+        </Flex>
     </Grid.Col>
 </Grid>
