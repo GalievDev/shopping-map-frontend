@@ -23,7 +23,6 @@
         }
     }
 
-
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
             const response = await fetch(`${url}/images/${id}`);
