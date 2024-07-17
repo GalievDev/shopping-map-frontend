@@ -15,7 +15,7 @@
     let routes = {
         "/": Clothes,
         "/create_cloth": CreateCloth,
-        "/:id": ViewCloth,
+        "/clothes/:id": ViewCloth,
         "/outfits": Outfits,
         "/create_outfit": CreateOutfit,
         "/outfits/:id": ViewOutfit,

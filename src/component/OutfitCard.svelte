@@ -120,7 +120,7 @@
 
         <Grid>
             <Grid.Col span={6}>
-                <Button color="#deccb7" on:click={async () => { await fetchOutfit(outfit_id) }} fullSize>
+                <Button color="#deccb7" href="/#/outfits/{outfit_id}" fullSize>
                     Показать информацию
                 </Button>
             </Grid.Col>
