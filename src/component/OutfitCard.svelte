@@ -118,12 +118,8 @@
             </Flex>
         </Modal>
 
-        <Grid>
-            <Grid.Col span={6}>
-                <Button color="#deccb7" href="/#/outfits/{outfit_id}" fullSize>
-                    Показать информацию
-                </Button>
-            </Grid.Col>
-        </Grid>
+        <Button color="#deccb7" href="/#/outfits/{outfit_id}" fullSize>
+            Показать информацию
+        </Button>
     </Flex>
 </Card>
