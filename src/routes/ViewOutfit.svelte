@@ -39,9 +39,38 @@
         }
     }
 
+    async function fetchClothId(id: number): Promise<Clothes | null> {
+        try {
+            const response = await fetch(`${url}/clothes/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch cloth: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return null;
+        }
+    }
+
+    async function fetchOutfit(id: number) {
+        outfit = await fetchOutfitId();
+        if (outfit) {
+            image = await fetchImage(outfit.image_id);
+        }
+        const fetchedClothes = await Promise.all(outfit?.clothes!!.map(fetchClothId));
+        clothes = fetchedClothes.filter(Boolean);
+        for (const cloth of clothes) {
+            fetchImage(cloth.image_id).then(img => {
+                images = { ...images, [cloth.image_id]: img };
+            });
+        }
+    }
+
     onMount(async () => {
         outfit = await fetchOutfitId();
         image = await fetchImage(outfit?.image_id!!);
+        fetchOutfit(params.id);
     })
 </script>
 
@@ -66,9 +95,15 @@
                 <Text size="xl">
                     Описание: {outfit?.description}
                 </Text>
-<!--                <Text size="xl">-->
-<!--                    {outfit?.clothes}-->
-<!--                </Text>-->
+                <Text size="xl">
+                    Перейти к элементу одежды:
+                </Text>
+                {#each clothes as cloth}
+                    <Text underline color=#deccb7 variant='link' root='a' size="xl" href="/#/clothes/{cloth.id}">
+                        {cloth.name}
+                    </Text>
+<!--                    <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${images[cloth.image_id]?.bytes}`}"></Image>-->
+                {/each}
             </Flex>
         </Grid.Col>
     </Grid>

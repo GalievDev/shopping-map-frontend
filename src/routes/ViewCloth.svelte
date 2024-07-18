@@ -42,34 +42,42 @@
     })
 </script>
 
-<Grid gutter={40}>
-    <Grid.Col span={6} override={{minHeight: 400}}>
-        {#if error}
-            <Alert icon={InfoCircled} title="Something went wrong..." color="red">
-                {error}
-            </Alert>
-        {:else if image}
-            <Flex justify="center">
-                <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+<main>
+    <Grid gutter={40}>
+        <Grid.Col span={6} override={{minHeight: 400}}>
+            {#if error}
+                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                    {error}
+                </Alert>
+            {:else if image}
+                <Flex justify="center">
+                    <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                </Flex>
+            {:else}
+                <Loader></Loader>
+            {/if}
+        </Grid.Col>
+        <Grid.Col span={4}>
+            <Flex direction="column" gap="xl">
+                <Title order={1} align='center'>{cloth?.name}</Title>
+                <Text size="xl">
+                    Тип: { cloth?.type }
+                </Text>
+                <Text size="xl">
+                    Описание: {cloth?.description}
+                </Text>
+                <Flex justify="center">
+                    <Button href={cloth?.link} color=#deccb7 align="center">
+                        Посмотреть на странице магазина
+                    </Button>
+                </Flex>
             </Flex>
-        {:else}
-            <Loader></Loader>
-        {/if}
-    </Grid.Col>
-    <Grid.Col span={4}>
-        <Flex direction="column" gap="xl">
-            <Title order={1} align='center'>{cloth?.name}</Title>
-            <Text size="xl">
-                Тип: { cloth?.type }
-            </Text>
-            <Text size="xl">
-                Описание: {cloth?.description}
-            </Text>
-            <Flex justify="center">
-                <Button href={cloth?.link} color=#deccb7 align="center">
-                    Посмотреть на странице магазина
-                </Button>
-            </Flex>
-        </Flex>
-    </Grid.Col>
-</Grid>
+        </Grid.Col>
+    </Grid>
+</main>
+
+<style>
+    main {
+        margin-top: 100px;
+    }
+</style>

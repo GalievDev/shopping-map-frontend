@@ -12,6 +12,7 @@
     let capsule: Capsules | null = null;
     let image: ImageDTO | null = null;
     let clothes: Clothes[] = [];
+    let outfits: Outfits[] = []
     let images: Record<number, ImageDTO | null> = {};
 
     async function fetchCapsuleId(): Promise<Capsules | null> {
@@ -40,9 +41,38 @@
         }
     }
 
+    async function fetchOutfit(id: number): Promise<Outfits | null> {
+        try {
+            const response = await fetch(`${url}/outfits/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch outfit: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return null;
+        }
+    }
+
+    async function fetchCapsule(id: number) {
+        capsule = await fetchCapsuleId();
+        if (capsule) {
+            image = await fetchImage(capsule.image_id);
+        }
+        const fetchedOutfits = await Promise.all(capsule?.outfits!!.map(fetchOutfit));
+        outfits = fetchedOutfits.filter(Boolean);
+        for (const outfit of outfits) {
+            fetchImage(outfit.image_id).then(img => {
+                images = { ...images, [outfit.image_id]: img };
+            });
+        }
+    }
+
     onMount(async () => {
         capsule = await fetchCapsuleId();
         image = await fetchImage(capsule?.image_id!!);
+        fetchCapsule(params.id);
     })
 </script>
 
@@ -67,6 +97,14 @@
                 <Text size="xl">
                     Описание: {capsule?.description}
                 </Text>
+                <Text size="xl">
+                    Перейти к образу из этой капсулы:
+                </Text>
+                {#each outfits as outfit}
+                    <Text underline color=#deccb7 variant='link' root='a' size="xl" href="/#/outfits/{outfit.id}">
+                        {outfit.name}
+                    </Text>
+                {/each}
                 <!--                <Text size="xl">-->
                 <!--                    {outfit?.clothes}-->
                 <!--                </Text>-->
