@@ -98,16 +98,32 @@
                     Описание: {capsule?.description}
                 </Text>
                 <Text size="xl">
-                    Перейти к образу из этой капсулы:
+                    Образы из этой капсулы:
                 </Text>
-                {#each outfits as outfit}
-                    <Text underline color=#deccb7 variant='link' root='a' size="xl" href="/#/outfits/{outfit.id}">
-                        {outfit.name}
-                    </Text>
-                {/each}
-                <!--                <Text size="xl">-->
-                <!--                    {outfit?.clothes}-->
-                <!--                </Text>-->
+                <Grid>
+                    {#each outfits as outfit}
+                        <Grid.Col span={6}>
+                                <Card>
+                                    <Card.Section firstpadding="lg">
+                                    {#if error}
+                                        <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                                            {error}
+                                        </Alert>
+                                    {:else if image}
+                                        <Flex justify="center">
+                                            <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${images[outfit.image_id]?.bytes}`}"></Image>
+                                        </Flex>
+                                    {:else}
+                                        <Loader></Loader>
+                                    {/if}
+                                </Card.Section>
+                                <Button color=#deccb7 href="/#/outfits/{outfit.id}" fullSize>
+                                    Перейти к {outfit.name}
+                                </Button>
+                            </Card>
+                        </Grid.Col>
+                    {/each}
+                </Grid>
             </Flex>
         </Grid.Col>
     </Grid>

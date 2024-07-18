@@ -98,12 +98,30 @@
                 <Text size="xl">
                     Перейти к элементу одежды:
                 </Text>
-                {#each clothes as cloth}
-                    <Text underline color=#deccb7 variant='link' root='a' size="xl" href="/#/clothes/{cloth.id}">
-                        {cloth.name}
-                    </Text>
-<!--                    <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${images[cloth.image_id]?.bytes}`}"></Image>-->
-                {/each}
+                <Grid>
+                    {#each clothes as cloth}
+                        <Grid.Col span={6}>
+                            <Card>
+                                <Card.Section firstpadding="lg">
+                                    {#if error}
+                                        <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                                            {error}
+                                        </Alert>
+                                    {:else if image}
+                                        <Flex justify="center">
+                                            <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${images[cloth.image_id]?.bytes}`}"></Image>
+                                        </Flex>
+                                    {:else}
+                                        <Loader></Loader>
+                                    {/if}
+                                </Card.Section>
+                                <Button color=#deccb7 href="/#/clothes/{cloth.id}" fullSize>
+                                    Перейти к {cloth.name}
+                                </Button>
+                            </Card>
+                        </Grid.Col>
+                    {/each}
+                </Grid>
             </Flex>
         </Grid.Col>
     </Grid>
