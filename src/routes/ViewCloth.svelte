@@ -4,6 +4,8 @@
     import {InfoCircled} from "radix-icons-svelte";
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
+    import type ClothRequest from "../dto/ClothRequest";
+    import {ClothType} from "../dto/ClothType";
     export let params: [];
     const url = 'http://10.90.136.54:5252/api/v1';
     let error: string | null = null;
@@ -36,6 +38,21 @@
         }
     }
 
+    async function sendClothRequest() {
+        try {
+            const response = await fetch(`${url}/clothes/${params.id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+
     onMount(async () => {
         cloth = await fetchClothId();
         image = await fetchImage(cloth?.image_id!!);
@@ -45,17 +62,22 @@
 <main>
     <Grid gutter={40}>
         <Grid.Col span={6} override={{minHeight: 400}}>
-            {#if error}
-                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
-                    {error}
-                </Alert>
-            {:else if image}
+            <Flex justify="center" direction="column" gap="xl">
+                {#if error}
+                    <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                        {error}
+                    </Alert>
+                {:else if image}
+                    <Flex justify="center">
+                        <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                    </Flex>
+                {:else}
+                    <Loader></Loader>
+                {/if}
                 <Flex justify="center">
-                    <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                    <Button color=#deccb7 ripple radius="md" on:click={() => sendClothRequest()}>Удалить</Button>
                 </Flex>
-            {:else}
-                <Loader></Loader>
-            {/if}
+            </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
             <Flex direction="column" gap="xl">

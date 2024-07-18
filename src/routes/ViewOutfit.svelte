@@ -67,6 +67,21 @@
         }
     }
 
+    async function sendOutfitRequest() {
+        try {
+            const response = await fetch(`${url}/outfits/${params.id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+
     onMount(async () => {
         outfit = await fetchOutfitId();
         image = await fetchImage(outfit?.image_id!!);
@@ -76,18 +91,23 @@
 
 <main>
     <Grid gutter={40}>
-        <Grid.Col span={6} override={{minHeight: 800}}>
-            {#if error}
-                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
-                    {error}
-                </Alert>
-            {:else if image}
+        <Grid.Col span={6} override={{minHeight: 400}}>
+            <Flex justify="center" direction="column" gap="xl">
+                {#if error}
+                    <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                        {error}
+                    </Alert>
+                {:else if image}
+                    <Flex justify="center">
+                        <Image justify="center" width={460} height={800} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                    </Flex>
+                {:else}
+                    <Loader></Loader>
+                {/if}
                 <Flex justify="center">
-                    <Image justify="center" width={460} height={800} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{outfit?.name}"></Image>
+                    <Button color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
                 </Flex>
-            {:else}
-                <Loader></Loader>
-            {/if}
+            </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
             <Flex direction="column" gap="xl">
@@ -96,7 +116,7 @@
                     Описание: {outfit?.description}
                 </Text>
                 <Text size="xl">
-                    Перейти к элементу одежды:
+                    Элементы одежды:
                 </Text>
                 <Grid>
                     {#each clothes as cloth}

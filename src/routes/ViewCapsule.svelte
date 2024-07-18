@@ -69,6 +69,21 @@
         }
     }
 
+    async function sendCapsuleRequest() {
+        try {
+            const response = await fetch(`${url}/capsules/${params.id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+
     onMount(async () => {
         capsule = await fetchCapsuleId();
         image = await fetchImage(capsule?.image_id!!);
@@ -78,18 +93,23 @@
 
 <main>
     <Grid gutter={40}>
-        <Grid.Col span={6} override={{minHeight: 800}}>
-            {#if error}
-                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
-                    {error}
-                </Alert>
-            {:else if image}
+        <Grid.Col span={6} override={{minHeight: 400}}>
+            <Flex justify="center" direction="column" gap="xl">
+                {#if error}
+                    <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                        {error}
+                    </Alert>
+                {:else if image}
+                    <Flex justify="center">
+                        <Image justify="center" width={460} height={800} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{image?.name}"></Image>
+                    </Flex>
+                {:else}
+                    <Loader></Loader>
+                {/if}
                 <Flex justify="center">
-                    <Image justify="center" width={460} height={800} fit='contain' src="{`data:image/png;base64,${image?.bytes}`}" alt="{capsule?.name}"></Image>
+                    <Button color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
                 </Flex>
-            {:else}
-                <Loader></Loader>
-            {/if}
+            </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
             <Flex direction="column" gap="xl">
