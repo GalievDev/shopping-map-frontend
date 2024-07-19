@@ -79,16 +79,11 @@
 
     async function sendCapsuleRequest() {
         try {
-            const response = await fetch(`${url}/capsules/${params.id}`, {
+            await fetch(`${url}/capsules/${params.id}`, {
                 method: 'DELETE'
             });
-            if (response.ok) {
-                location.replace('/#/');
-            }
         } catch (err: any) {
             error = err;
-        } finally {
-
         }
     }
 

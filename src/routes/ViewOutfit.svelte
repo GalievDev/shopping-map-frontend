@@ -78,12 +78,9 @@
 
     async function sendOutfitRequest() {
         try {
-            const response = await fetch(`${url}/outfits/${params.id}`, {
+            await fetch(`${url}/outfits/${params.id}`, {
                 method: 'DELETE'
             });
-            if (response.ok) {
-                location.replace('/#/');
-            }
         } catch (err: any) {
             error = err;
         } finally {

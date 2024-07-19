@@ -43,12 +43,9 @@
 
     async function sendClothRequest() {
         try {
-            const response = await fetch(`${url}/clothes/${params.id}`, {
+            await fetch(`${url}/clothes/${params.id}`, {
                 method: 'DELETE'
             });
-            if (response.ok) {
-                location.replace('/#/');
-            }
         } catch (err: any) {
             error = err;
         } finally {
