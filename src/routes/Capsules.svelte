@@ -1,33 +1,24 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Button, Checkbox, Flex, Grid, Input, Modal, Text} from '@svelteuidev/core';
-    import {MagnifyingGlass} from 'radix-icons-svelte';
+    import {Alert, Button, Grid, Input, Loader} from '@svelteuidev/core';
+    import {InfoCircled, MagnifyingGlass} from 'radix-icons-svelte';
     import type Capsules from "../dto/Capsules";
     import CapsuleCard from "../component/CapsuleCard.svelte";
-    import type Outfits from "../dto/Outfits";
-    import type CapsuleRequest from "../dto/CapsuleRequest";
 
     const url = 'http://10.90.136.54:5252/api/v1';
     let capsules: Capsules[] | [] = [];
-    let outfits: Outfits[] | [] = [];
     let error: string | null = null;
-    let opened = false;
-
-    let name = '';
-    let description = '';
-    let outfits_ids: Set<number> = new Set();
     let searchQuery = '';
 
     async function fetchCapsules(): Promise<Capsules[] | []> {
         try {
             const response = await fetch(`${url}/capsules`);
             if (!response.ok) {
-                throw new Error('Failed to fetch capsules: ' + response.statusText);
+                console.log('Failed to fetch capsules: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
             error = err.message;
-            console.error('Fetch error:', err);
             return [];
         }
     }
@@ -44,54 +35,7 @@
         }
     }
 
-    async function fetchOutfits(): Promise<Outfits[] | []> {
-        try {
-            const response = await fetch(`${url}/outfits`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch outfits: ' + response.statusText);
-            }
-            return await response.json();
-        } catch (err: any) {
-            error = err.message;
-            console.error('Fetch error:', err);
-            return [];
-        }
-    }
-
-    async function sendCapsuleRequest() {
-        const capsuleRequest: CapsuleRequest = {
-            name,
-            description,
-            outfits: Array.from(outfits_ids)
-        };
-
-        try {
-            const response = await fetch(`${url}/capsules`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(capsuleRequest),
-            });
-            if (response.ok) {
-                location.reload();
-                opened = false;
-            }
-        } catch (error) {
-            console.error('Error: ', error);
-        }
-    }
-
-    function toggleSelection(clothId: number) {
-        if (outfits_ids.has(clothId)) {
-            outfits_ids.delete(clothId);
-        } else {
-            outfits_ids.add(clothId);
-        }
-    }
-
     onMount(async () => {
-        outfits = await fetchOutfits();
         capsules = await fetchCapsules();
     });
 
@@ -130,7 +74,15 @@
 <Grid>
     {#each capsules as capsule (capsule.id)}
         <Grid.Col span={4}>
-            <CapsuleCard capsule_id="{capsule.id}" image_id="{capsule.image_id}" name={capsule.name} description={capsule.description} outfits_ids={capsule.outfits}></CapsuleCard>
+            {#if error}
+                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                    {error}
+                </Alert>
+            {:else if capsule}
+                <CapsuleCard capsule_id="{capsule.id}" image_id="{capsule.image_id}" name={capsule.name}></CapsuleCard>
+            {:else}
+                <Loader></Loader>
+            {/if}
         </Grid.Col>
     {/each}
 </Grid>

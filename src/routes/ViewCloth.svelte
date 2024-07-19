@@ -4,9 +4,12 @@
     import {InfoCircled} from "radix-icons-svelte";
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
-    import type ClothRequest from "../dto/ClothRequest";
-    import {ClothType} from "../dto/ClothType";
-    export let params: [];
+
+    type Params = {
+        id: number;
+    };
+    export let params: Params;
+
     const url = 'http://10.90.136.54:5252/api/v1';
     let error: string | null = null;
     let cloth: Clothes | null = null;
@@ -16,7 +19,7 @@
         try {
             const response = await fetch(`${url}/clothes/${params.id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch cloth: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -29,7 +32,7 @@
         try {
             const response = await fetch(`${url}/images/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch image: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
