@@ -64,10 +64,12 @@
         if (capsule) {
             image = await fetchImage(capsule.image_id);
         }
-        const fetchedOutfits = await Promise.all(
-            (capsule?.outfits ?? []).map(fetchOutfit)
-        );
-        outfits = fetchedOutfits.filter(Boolean) as Outfits[];
+        for (const outfitId of capsule?.outfits ?? []) {
+            const cloth = await fetchOutfit(outfitId);
+            if (cloth) {
+                outfits.push(cloth);
+            }
+        }
         for (const outfit of outfits) {
             fetchImage(outfit.image_id).then(img => {
                 images = { ...images, [outfit.image_id]: img };
