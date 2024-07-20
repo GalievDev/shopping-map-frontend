@@ -3,7 +3,7 @@
     import type Outfits from "../dto/Outfits"
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     export let params: [];
     const url = 'http://10.90.136.54:5252/api/v1';
@@ -82,6 +82,21 @@
         }
     }
 
+    async function sendClothRequest(cloth_id: number) {
+        try {
+            const response = await fetch(`${url}/outfits/${params.id}/${cloth_id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+
     onMount(async () => {
         outfit = await fetchOutfitId();
         image = await fetchImage(outfit?.image_id!!);
@@ -135,9 +150,14 @@
                                         <Loader></Loader>
                                     {/if}
                                 </Card.Section>
-                                <Button color=#deccb7 href="/#/clothes/{cloth.id}" fullSize>
-                                    Перейти к {cloth.name}
-                                </Button>
+                                <Group position="center" direction="column" spacing="xs">
+                                    <Button color=#deccb7 href="/#/clothes/{cloth.id}" fullSize>
+                                        Перейти к {cloth.name}
+                                    </Button>
+                                    <Button color=#deccb7 on:click={() => sendClothRequest(cloth.id)} fullSize>
+                                        Удалить {cloth.name} из данного аутфита
+                                    </Button>
+                                </Group>
                             </Card>
                         </Grid.Col>
                     {/each}

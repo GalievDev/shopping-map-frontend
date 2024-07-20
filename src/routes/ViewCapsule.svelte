@@ -3,7 +3,7 @@
     import type Outfits from "../dto/Outfits"
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     import type Capsules from "../dto/Capsules";
     export let params: [];
@@ -66,6 +66,21 @@
             fetchImage(outfit.image_id).then(img => {
                 images = { ...images, [outfit.image_id]: img };
             });
+        }
+    }
+
+    async function sendOutfitRequest(outfit_id: number) {
+        try {
+            const response = await fetch(`${url}/capsules/${params.id}/${outfit_id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
         }
     }
 
@@ -137,9 +152,14 @@
                                         <Loader></Loader>
                                     {/if}
                                 </Card.Section>
-                                <Button color=#deccb7 href="/#/outfits/{outfit.id}" fullSize>
-                                    Перейти к {outfit.name}
-                                </Button>
+                                    <Group position="center" direction="column" spacing="xs">
+                                        <Button color=#deccb7 href="/#/outfits/{outfit.id}" fullSize>
+                                            Перейти к {outfit.name}
+                                        </Button>
+                                        <Button color=#deccb7 on:click={() => sendOutfitRequest(outfit.id)} fullSize>
+                                            Удалить {outfit.name} из данного аутфита
+                                        </Button>
+                                    </Group>
                             </Card>
                         </Grid.Col>
                     {/each}
