@@ -96,6 +96,35 @@
 
         }
     }
+    function downloadOutfitData() {
+        if (!outfit) {
+            console.error('Outfit data is not available');
+            return;
+        }
+
+        const outfitData = {
+            id: outfit.id,
+            name: outfit.name,
+            description: outfit.description,
+            clothes: clothes.map(cloth => ({
+                id: cloth.id,
+                name: cloth.name,
+                link: cloth.link,
+                type: cloth.type,
+                description: cloth.description,
+                image_id: cloth.image_id
+            })),
+            image_id: outfit.image_id
+        };
+
+        const blob = new Blob([JSON.stringify(outfitData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${outfit.name}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
 
     onMount(async () => {
         outfit = await fetchOutfitId();
@@ -119,9 +148,10 @@
                 {:else}
                     <Loader></Loader>
                 {/if}
-                <Flex justify="center">
+                <Group position="center" direction="column" spacing="xs">
                     <Button color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
-                </Flex>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadOutfitData()}>Выгрузить .json</Button>
+                </Group>
             </Flex>
         </Grid.Col>
         <Grid.Col span={4}>

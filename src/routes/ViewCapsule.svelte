@@ -99,6 +99,42 @@
         }
     }
 
+    function downloadCapsuleData() {
+        if (!capsule) {
+            console.error('Capsule data is not available');
+            return;
+        }
+
+        const capsuleData = {
+            id: capsule.id,
+            name: capsule.name,
+            description: capsule.description,
+            outfits: outfits.map(outfit => ({
+                id: outfit.id,
+                name: outfit.name,
+                description: outfit.description,
+                image_id: outfit.image_id,
+                clothes: clothes.map(cloth => ({
+                    id: cloth.id,
+                    name: cloth.name,
+                    link: cloth.link,
+                    type: cloth.type,
+                    description: cloth.description,
+                    image_id: cloth.image_id
+                }))
+            })),
+            image_id: capsule.image_id
+        };
+
+        const blob = new Blob([JSON.stringify(capsuleData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${capsule.name}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
     onMount(async () => {
         capsule = await fetchCapsuleId();
         image = await fetchImage(capsule?.image_id!!);
@@ -121,9 +157,10 @@
                 {:else}
                     <Loader></Loader>
                 {/if}
-                <Flex justify="center">
+                <Group position="center" direction="column" spacing="xs">
                     <Button color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
-                </Flex>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadCapsuleData()}>Выгрузить .json</Button>
+                </Group>
             </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
