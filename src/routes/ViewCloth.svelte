@@ -2,7 +2,7 @@
     import type Clothes from "../dto/Clothes";
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
 
     type Params = {
@@ -53,6 +53,18 @@
         }
     }
 
+    function downloadClothData() {
+        if (cloth) {
+            const blob = new Blob([JSON.stringify(cloth, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${cloth.name}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    }
+
     onMount(async () => {
         cloth = await fetchClothId();
         image = await fetchImage(cloth?.image_id!!);
@@ -74,9 +86,10 @@
                 {:else}
                     <Loader></Loader>
                 {/if}
-                <Flex justify="center">
+                <Group position="center" direction="column" spacing="xs">
                     <Button color=#deccb7 ripple radius="md" on:click={() => sendClothRequest()}>Удалить</Button>
-                </Flex>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadClothData()}>Выгрузить .json</Button>
+                </Group>
             </Flex>
         </Grid.Col>
         <Grid.Col span={4}>

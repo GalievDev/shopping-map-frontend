@@ -2,7 +2,7 @@
     import type Outfits from "../dto/Outfits"
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     import type Capsules from "../dto/Capsules";
 
@@ -77,6 +77,21 @@
         }
     }
 
+    async function sendOutfitRequest(outfit_id: number) {
+        try {
+            const response = await fetch(`${url}/capsules/${params.id}/${outfit_id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+
     async function sendCapsuleRequest() {
         try {
             await fetch(`${url}/capsules/${params.id}`, {
@@ -85,6 +100,42 @@
         } catch (err: any) {
             error = err;
         }
+    }
+
+    function downloadCapsuleData() {
+        if (!capsule) {
+            console.error('Capsule data is not available');
+            return;
+        }
+
+        const capsuleData = {
+            id: capsule.id,
+            name: capsule.name,
+            description: capsule.description,
+            outfits: outfits.map(outfit => ({
+                id: outfit.id,
+                name: outfit.name,
+                description: outfit.description,
+                image_id: outfit.image_id,
+                clothes: clothes.map(cloth => ({
+                    id: cloth.id,
+                    name: cloth.name,
+                    link: cloth.link,
+                    type: cloth.type,
+                    description: cloth.description,
+                    image_id: cloth.image_id
+                }))
+            })),
+            image_id: capsule.image_id
+        };
+
+        const blob = new Blob([JSON.stringify(capsuleData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${capsule.name}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     onMount(async () => {
@@ -108,9 +159,10 @@
                 {:else}
                     <Loader></Loader>
                 {/if}
-                <Flex justify="center">
+                <Group position="center" direction="column" spacing="xs">
                     <Button color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
-                </Flex>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadCapsuleData()}>Выгрузить .json</Button>
+                </Group>
             </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -139,9 +191,14 @@
                                         <Loader></Loader>
                                     {/if}
                                 </Card.Section>
-                                <Button color=#deccb7 href="/#/outfits/{outfit.id}" fullSize>
-                                    Перейти к {outfit.name}
-                                </Button>
+                                    <Group position="center" direction="column" spacing="xs">
+                                        <Button color=#deccb7 href="/#/outfits/{outfit.id}" fullSize>
+                                            Перейти к {outfit.name}
+                                        </Button>
+                                        <Button color=#deccb7 on:click={() => sendOutfitRequest(outfit.id)} fullSize>
+                                            Удалить {outfit.name} из данного аутфита
+                                        </Button>
+                                    </Group>
                             </Card>
                         </Grid.Col>
                     {/each}

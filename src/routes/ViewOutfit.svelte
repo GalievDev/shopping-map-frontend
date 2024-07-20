@@ -3,7 +3,7 @@
     import type Outfits from "../dto/Outfits"
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
-    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card} from "@svelteuidev/core";
+    import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
 
     type Params = {
@@ -88,6 +88,50 @@
         }
     }
 
+    async function sendClothRequest(cloth_id: number) {
+        try {
+            const response = await fetch(`${url}/outfits/${params.id}/${cloth_id}`, {
+                method: 'DELETE'
+            });
+            if (response.ok) {
+                location.replace('/#/');
+            }
+        } catch (err: any) {
+            error = err;
+        } finally {
+
+        }
+    }
+    function downloadOutfitData() {
+        if (!outfit) {
+            console.error('Outfit data is not available');
+            return;
+        }
+
+        const outfitData = {
+            id: outfit.id,
+            name: outfit.name,
+            description: outfit.description,
+            clothes: clothes.map(cloth => ({
+                id: cloth.id,
+                name: cloth.name,
+                link: cloth.link,
+                type: cloth.type,
+                description: cloth.description,
+                image_id: cloth.image_id
+            })),
+            image_id: outfit.image_id
+        };
+
+        const blob = new Blob([JSON.stringify(outfitData, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `${outfit.name}.json`;
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
     onMount(async () => {
         await fetchOutfit();
         image = await fetchImage(outfit?.image_id!!);
@@ -109,9 +153,10 @@
                 {:else}
                     <Loader></Loader>
                 {/if}
-                <Flex justify="center">
+                <Group position="center" direction="column" spacing="xs">
                     <Button color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
-                </Flex>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadOutfitData()}>Выгрузить .json</Button>
+                </Group>
             </Flex>
         </Grid.Col>
         <Grid.Col span={4}>
@@ -140,9 +185,14 @@
                                         <Loader></Loader>
                                     {/if}
                                 </Card.Section>
-                                <Button color=#deccb7 href="/#/clothes/{cloth.id}" fullSize>
-                                    Перейти к {cloth.name}
-                                </Button>
+                                <Group position="center" direction="column" spacing="xs">
+                                    <Button color=#deccb7 href="/#/clothes/{cloth.id}" fullSize>
+                                        Перейти к {cloth.name}
+                                    </Button>
+                                    <Button color=#deccb7 on:click={() => sendClothRequest(cloth.id)} fullSize>
+                                        Удалить {cloth.name} из данного аутфита
+                                    </Button>
+                                </Group>
                             </Card>
                         </Grid.Col>
                     {/each}
