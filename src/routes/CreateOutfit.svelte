@@ -1,15 +1,13 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Button, Checkbox, Flex, Input,  Text} from '@svelteuidev/core';
-    import type Outfits from "../dto/Outfits";
+    import {Alert, Button, Checkbox, Flex, Input, Loader, Text} from '@svelteuidev/core';
     import type Clothes from "../dto/Clothes";
     import type {OutfitRequest} from "../dto/OutfitRequest";
+    import {InfoCircled} from "radix-icons-svelte";
 
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1';
     let clothes: Clothes[] | [] = [];
-    let outfits: Outfits[] | [] = [];
     let error: string | null = null;
-    let opened = false;
 
     let name = '';
     let description = '';
@@ -31,7 +29,6 @@
             });
             if (response.ok) {
                 location.replace('/#/outfits/');
-                opened = false;
             }
         } catch (error) {
             console.error('Error: ', error);
@@ -42,7 +39,7 @@
         try {
             const response = await fetch(`${url}/clothes`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch clothes: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -76,7 +73,15 @@
 
         <Text>Выберите одежду в образ: </Text>
         {#each clothes as cloth}
-            <Checkbox checked={false} label="{cloth.name} " on:change={() => toggleSelection(cloth.id)} />
+            {#if error}
+                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                    {error}
+                </Alert>
+            {:else if cloth}
+                <Checkbox checked={false} label="{cloth.name} " on:change={() => toggleSelection(cloth.id)} />
+            {:else}
+                <Loader></Loader>
+            {/if}
         {/each}
         </Flex>
     </div>

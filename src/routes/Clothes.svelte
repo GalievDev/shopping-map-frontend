@@ -2,12 +2,12 @@
     import { onMount } from "svelte";
     import ClothCard from "../component/ClothCard.svelte";
     import type Clothes from "../dto/Clothes";
-    import { Button, Grid, Input} from '@svelteuidev/core';
-    import { MagnifyingGlass } from 'radix-icons-svelte';
+    import {Alert, Button, Grid, Input, Loader} from '@svelteuidev/core';
+    import {InfoCircled, MagnifyingGlass} from 'radix-icons-svelte';
 
     let clothes: Clothes[] | [] = [];
 
-    const url = 'http://10.90.136.54:5252/api/v1/clothes';
+    const url = 'http://51.250.36.103:5252/api/v1/clothes';
     let error: string | null = null;
     let searchQuery = '';
 
@@ -15,7 +15,7 @@
         try {
             const response = await fetch(url);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch image: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -76,7 +76,15 @@
 <Grid>
     {#each clothes as cloth (cloth.id)}
         <Grid.Col span={4}>
-            <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}"></ClothCard>
+            {#if error}
+                <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                    {error}
+                </Alert>
+            {:else if cloth}
+                <ClothCard cloth_id="{cloth.id}" image_id="{cloth.image_id}" name="{cloth.name}" link="{cloth.link}"></ClothCard>
+            {:else}
+                <Loader></Loader>
+            {/if}
         </Grid.Col>
     {/each}
 </Grid>

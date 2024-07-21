@@ -9,15 +9,19 @@
     import CreateOutfit from "./routes/CreateOutfit.svelte";
     import CreateCapsule from "./routes/CreateCapsule.svelte";
     import ViewCloth from "./routes/ViewCloth.svelte";
+    import ViewOutfit from "./routes/ViewOutfit.svelte";
+    import ViewCapsule from "./routes/ViewCapsule.svelte";
 
     let routes = {
         "/": Clothes,
         "/create_cloth": CreateCloth,
-        "/:id": ViewCloth,
+        "/clothes/:id": ViewCloth,
         "/outfits": Outfits,
         "/create_outfit": CreateOutfit,
+        "/outfits/:id": ViewOutfit,
         "/capsules": Capsules,
         "/create_capsule": CreateCapsule,
+        "/capsules/:id": ViewCapsule,
 
         "*": NotFound
     }
@@ -100,13 +104,5 @@
 
     .navi {
         margin-top: 24px;
-    }
-
-    .column ul li {
-        margin-bottom: 0.5rem;
-    }
-
-    .column ul li:last-child {
-        margin-bottom: 0;
     }
 </style>
