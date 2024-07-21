@@ -4,8 +4,7 @@
 
 This is the frontend part of **shopping map app**.
 
-## Demo video
-This is [example](https://www.youtube.com/watch?v=j2LP6c1hC-0) of work with our website.  
+![image](https://i.ibb.co/vDZ9py2/Screenshot-20240721-231657.png)
 
 ## How to use
 Use of app was showed in demo video. To add a cloth user should upload all the necessary 
