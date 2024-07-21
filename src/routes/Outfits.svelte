@@ -1,12 +1,11 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Alert, Button, Flex, Grid, Image, Input, Loader} from '@svelteuidev/core';
+    import {Alert, Button, Grid, Input, Loader} from '@svelteuidev/core';
     import {InfoCircled, MagnifyingGlass} from 'radix-icons-svelte';
     import type Outfits from "../dto/Outfits";
     import OutfitCard from "../component/OutfitCard.svelte";
 
     const url = 'http://51.250.36.103:5252/api/v1';
-    let clothes: Clothes[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;
 

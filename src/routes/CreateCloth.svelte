@@ -4,7 +4,6 @@
     import type ClothRequest from "../dto/ClothRequest";
 
     const url = 'http://51.250.36.103:5252/api/v1/clothes';
-    let clothes: Clothes[] | [] = [];
 
     let name = '';
     let link = '';

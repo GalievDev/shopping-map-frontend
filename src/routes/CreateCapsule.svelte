@@ -6,7 +6,6 @@
     import {InfoCircled} from "radix-icons-svelte";
 
     const url = 'http://51.250.36.103:5252/api/v1';
-    let capsules: Capsules[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;
 

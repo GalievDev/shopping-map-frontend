@@ -38,12 +38,11 @@
         try {
             const response = await fetch(`${url}/clothes/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch cloth: ' + response.statusText);
+                console.log('Failed to fetch cloth: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
             error = err.message;
-            console.error('Fetch error:', err);
             return null;
         }
     }
@@ -109,7 +108,7 @@
                 method: 'DELETE'
             });
             if (response.ok) {
-                location.replace('/#/');
+                location.reload()
             }
         } catch (err: any) {
             error = err;
@@ -123,6 +122,7 @@
             await fetch(`${url}/capsules/${params.id}`, {
                 method: 'DELETE'
             });
+            location.replace("/#/capsules/")
         } catch (err: any) {
             error = err;
         }

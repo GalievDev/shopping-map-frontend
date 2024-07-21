@@ -81,6 +81,7 @@
             await fetch(`${url}/outfits/${params.id}`, {
                 method: 'DELETE'
             });
+            location.replace("/#/outfits/")
         } catch (err: any) {
             error = err;
         } finally {
@@ -94,7 +95,7 @@
                 method: 'DELETE'
             });
             if (response.ok) {
-                location.replace('/#/');
+                location.reload();
             }
         } catch (err: any) {
             error = err;
