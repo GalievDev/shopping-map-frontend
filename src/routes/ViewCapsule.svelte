@@ -32,6 +32,20 @@
         }
     }
 
+    async function fetchClothId(id: number): Promise<Clothes | null> {
+        try {
+            const response = await fetch(`${url}/clothes/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch cloth: ' + response.statusText);
+            }
+            return await response.json();
+        } catch (err: any) {
+            error = err.message;
+            console.error('Fetch error:', err);
+            return null;
+        }
+    }
+
     async function fetchImage(id: number): Promise<ImageDTO | null> {
         try {
             const response = await fetch(`${url}/images/${id}`);
@@ -71,6 +85,15 @@
             }
         }
         for (const outfit of outfits) {
+            const fetchedClothes = await Promise.all(outfit?.clothes!!.map(fetchClothId));
+            for (const cloth of fetchedClothes) {
+                clothes.push(cloth);
+                fetchImage(cloth.image_id).then(img => {
+                    images[cloth.image_id] = img;
+                    images = { ...images, [cloth.image_id]: img };
+                });
+            }
+
             fetchImage(outfit.image_id).then(img => {
                 images = { ...images, [outfit.image_id]: img };
             });
@@ -117,14 +140,7 @@
                 name: outfit.name,
                 description: outfit.description,
                 image_id: outfit.image_id,
-                clothes: clothes.map(cloth => ({
-                    id: cloth.id,
-                    name: cloth.name,
-                    link: cloth.link,
-                    type: cloth.type,
-                    description: cloth.description,
-                    image_id: cloth.image_id
-                }))
+                clothes: outfit.clothes.map(cloth => (cloth))
             })),
             image_id: capsule.image_id
         };
@@ -148,9 +164,29 @@
         }
     }
 
+    function downloadAllClothImages() {
+        if (clothes.length === 0) {
+            console.error('No clothes available to download images.');
+            return;
+        }
+
+        clothes.forEach(cloth => {
+            if (images[cloth.image_id]) {
+                const base64Image = `data:image/png;base64,${images[cloth.image_id]?.bytes}`;
+                const a = document.createElement('a');
+                a.href = base64Image;
+                a.download = `${cloth.name}.png`;
+                a.click();
+            } else {
+                console.error(`Image for cloth ID ${cloth.id} not found.`);
+            }
+        });
+    }
+
     onMount(async () => {
         await fetchCapsule()
         image = await fetchImage(capsule?.image_id!!);
+        await fetchCapsule(params.id);
     })
 </script>
 
@@ -171,6 +207,7 @@
                 {/if}
                 <Group position="center" direction="column" spacing="xs">
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadImage()}>Скачать изображение</Button>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadAllClothImages()}>Скачать изображения всех вещей</Button>
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadCapsuleData()}>Выгрузить .json</Button>
                     <Button variant="outline" color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
                 </Group>
@@ -196,7 +233,7 @@
                                         </Alert>
                                     {:else if image}
                                         <Flex justify="center">
-                                            <Image justify="center" width={460} height={400} fit='contain' src="{`data:image/png;base64,${images[outfit.image_id]?.bytes}`}"></Image>
+                                            <Image justify="center" width={460} height={200} fit='contain' src="{`data:image/png;base64,${images[outfit.image_id]?.bytes}`}"></Image>
                                         </Flex>
                                     {:else}
                                         <Loader></Loader>

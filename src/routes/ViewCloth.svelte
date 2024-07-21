@@ -48,8 +48,6 @@
             });
         } catch (err: any) {
             error = err;
-        } finally {
-
         }
     }
 

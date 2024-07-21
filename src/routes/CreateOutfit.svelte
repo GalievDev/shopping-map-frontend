@@ -5,7 +5,7 @@
     import type {OutfitRequest} from "../dto/OutfitRequest";
     import {InfoCircled} from "radix-icons-svelte";
 
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1';
     let clothes: Clothes[] | [] = [];
     let error: string | null = null;
 

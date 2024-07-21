@@ -3,7 +3,8 @@
     import { Button, Flex, Input, Text } from '@svelteuidev/core';
     import type ClothRequest from "../dto/ClothRequest";
 
-    const url = 'http://10.90.136.54:5252/api/v1/clothes';
+    const url = 'http://51.250.36.103:5252/api/v1/clothes';
+    let clothes: Clothes[] | [] = [];
 
     let name = '';
     let link = '';
