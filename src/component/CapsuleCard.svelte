@@ -8,7 +8,7 @@
 
     export let capsule_id: number, image_id: number, name: string, description: string, outfits_ids: number[];
 
-    const url = 'http://10.90.136.54:5252/api/v1'
+    const url = 'http://51.250.36.103:5252/api/v1'
     let image: ImageDTO | null = null;
     let error: string | null = null;
     let opened = false;

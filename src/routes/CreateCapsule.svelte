@@ -5,7 +5,7 @@
     import type Outfits from "../dto/Outfits";
     import type CapsuleRequest from "../dto/CapsuleRequest";
 
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1';
     let capsules: Capsules[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;

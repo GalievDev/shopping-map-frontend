@@ -6,7 +6,7 @@
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     export let params: [];
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1';
     let error: string | null = null;
     let outfit: Outfits | null = null;
     let image: ImageDTO | null = null;
@@ -136,10 +136,29 @@
         }
     }
 
+    function downloadAllClothImages() {
+        if (clothes.length === 0) {
+            console.error('No clothes available to download images.');
+            return;
+        }
+
+        clothes.forEach(cloth => {
+            if (images[cloth.image_id]) {
+                const base64Image = `data:image/png;base64,${images[cloth.image_id]?.bytes}`;
+                const a = document.createElement('a');
+                a.href = base64Image;
+                a.download = `${cloth.name}.png`;
+                a.click();
+            } else {
+                console.error(`Image for cloth ID ${cloth.id} not found.`);
+            }
+        });
+    }
+
     onMount(async () => {
         outfit = await fetchOutfitId();
         image = await fetchImage(outfit?.image_id!!);
-        fetchOutfit(params.id);
+        await fetchOutfit(params.id);
     })
 </script>
 
@@ -160,6 +179,7 @@
                 {/if}
                 <Group position="center" direction="column" spacing="xs">
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadImage()}>Скачать изображение</Button>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadAllClothImages()}>Скачать изображения всех вещей</Button>
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadOutfitData()}>Выгрузить .json</Button>
                     <Button variant="outline" color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
                 </Group>
