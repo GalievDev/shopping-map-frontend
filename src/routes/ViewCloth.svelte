@@ -46,7 +46,7 @@
             await fetch(`${url}/clothes/${params.id}`, {
                 method: 'DELETE'
             });
-            location.replace("/#/clothes/")
+            location.replace("/#/")
         } catch (err: any) {
             error = err;
         }
