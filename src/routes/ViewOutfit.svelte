@@ -126,6 +126,16 @@
         URL.revokeObjectURL(url);
     }
 
+    function downloadImage() {
+        if (image) {
+            const base64Image = `data:image/png;base64,${image.bytes}`;
+            const a = document.createElement('a');
+            a.href = base64Image;
+            a.download = `${outfit?.name}.png`;
+            a.click();
+        }
+    }
+
     onMount(async () => {
         outfit = await fetchOutfitId();
         image = await fetchImage(outfit?.image_id!!);
@@ -149,8 +159,9 @@
                     <Loader></Loader>
                 {/if}
                 <Group position="center" direction="column" spacing="xs">
-                    <Button color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadImage()}>Скачать изображение</Button>
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadOutfitData()}>Выгрузить .json</Button>
+                    <Button variant="outline" color=#deccb7 ripple radius="md" on:click={() => sendOutfitRequest()}>Удалить</Button>
                 </Group>
             </Flex>
         </Grid.Col>

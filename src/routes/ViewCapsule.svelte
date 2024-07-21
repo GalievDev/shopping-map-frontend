@@ -135,6 +135,16 @@
         URL.revokeObjectURL(url);
     }
 
+    function downloadImage() {
+        if (image) {
+            const base64Image = `data:image/png;base64,${image.bytes}`;
+            const a = document.createElement('a');
+            a.href = base64Image;
+            a.download = `${capsule?.name}.png`;
+            a.click();
+        }
+    }
+
     onMount(async () => {
         capsule = await fetchCapsuleId();
         image = await fetchImage(capsule?.image_id!!);
@@ -158,8 +168,9 @@
                     <Loader></Loader>
                 {/if}
                 <Group position="center" direction="column" spacing="xs">
-                    <Button color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
+                    <Button color="#deccb7" ripple radius="md" on:click={() => downloadImage()}>Скачать изображение</Button>
                     <Button color="#deccb7" ripple radius="md" on:click={() => downloadCapsuleData()}>Выгрузить .json</Button>
+                    <Button variant="outline" color=#deccb7 ripple radius="md" on:click={() => sendCapsuleRequest()}>Удалить</Button>
                 </Group>
             </Flex>
         </Grid.Col>
