@@ -21,7 +21,7 @@ Section **for customer**
 
 Clone the repository:
 ```
-git clone https://gitlab.pg.innopolis.university/ise25/shopping-map-frontend
+git clone https://github.com/GalievDev/shopping-map-frontend
 ```
 Install the dependencies:
 ```
