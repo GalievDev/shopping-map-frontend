@@ -105,12 +105,4 @@
     .navi {
         margin-top: 24px;
     }
-
-    .column ul li {
-        margin-bottom: 0.5rem;
-    }
-
-    .column ul li:last-child {
-        margin-bottom: 0;
-    }
 </style>

@@ -1,15 +1,14 @@
 <script lang="ts">
     import {onMount} from "svelte";
-    import {Button, Checkbox, Flex, Input, Modal, Text} from '@svelteuidev/core';
-    import type Capsules from "../dto/Capsules";
+    import {Alert, Button, Checkbox, Flex, Input, Loader, Text} from '@svelteuidev/core';
     import type Outfits from "../dto/Outfits";
     import type CapsuleRequest from "../dto/CapsuleRequest";
+    import {InfoCircled} from "radix-icons-svelte";
 
     const url = 'http://51.250.36.103:5252/api/v1';
     let capsules: Capsules[] | [] = [];
     let outfits: Outfits[] | [] = [];
     let error: string | null = null;
-    let opened = false;
 
     let name = '';
     let description = '';
@@ -19,12 +18,11 @@
         try {
             const response = await fetch(`${url}/outfits`);
             if (!response.ok) {
-                throw new Error('Failed to fetch outfits: ' + response.statusText);
+                console.log('Failed to fetch outfits: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
             error = err.message;
-            console.error('Fetch error:', err);
             return [];
         }
     }
@@ -46,7 +44,6 @@
             });
             if (response.ok) {
                 location.replace('/#/capsules/');
-                opened = false;
             }
         } catch (error) {
             console.error('Error: ', error);
@@ -77,7 +74,15 @@
             <Input bind:value={description} required></Input>
             <Text>Выберите образы для капсулы:</Text>
             {#each outfits as outfit}
-                <Checkbox checked={false} label="{outfit.name}" on:change={() => toggleSelection(outfit.id)} />
+                {#if error}
+                    <Alert icon={InfoCircled} title="Something went wrong..." color="red">
+                        {error}
+                    </Alert>
+                {:else if outfit}
+                    <Checkbox checked={false} label="{outfit.name}" on:change={() => toggleSelection(outfit.id)} />
+                {:else}
+                    <Loader></Loader>
+                {/if}
             {/each}
             </Flex>
     </div>

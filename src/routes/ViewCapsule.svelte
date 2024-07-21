@@ -1,17 +1,21 @@
 <script lang="ts">
-    import type Clothes from "../dto/Clothes";
     import type Outfits from "../dto/Outfits"
     import {onMount} from "svelte";
     import {InfoCircled} from "radix-icons-svelte";
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     import type Capsules from "../dto/Capsules";
-    export let params: [];
-    const url = 'http://51.250.36.103:5252/api/v1';
+
+    type Params = {
+        id: number;
+    };
+    export let params: Params;
+
+    const url = 'http://10.90.136.54:5252/api/v1';
+
     let error: string | null = null;
     let capsule: Capsules | null = null;
     let image: ImageDTO | null = null;
-    let clothes: Clothes[] = [];
     let outfits: Outfits[] = []
     let images: Record<number, ImageDTO | null> = {};
 
@@ -19,7 +23,7 @@
         try {
             const response = await fetch(`${url}/capsules/${params.id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch capsule: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -46,7 +50,7 @@
         try {
             const response = await fetch(`${url}/images/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch image: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -59,7 +63,7 @@
         try {
             const response = await fetch(`${url}/outfits/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch outfit: ' + response.statusText);
+                console.log('Failed to fetch outfit: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -69,7 +73,7 @@
         }
     }
 
-    async function fetchCapsule(id: number) {
+    async function fetchCapsule() {
         capsule = await fetchCapsuleId();
         if (capsule) {
             image = await fetchImage(capsule.image_id);
@@ -113,16 +117,11 @@
 
     async function sendCapsuleRequest() {
         try {
-            const response = await fetch(`${url}/capsules/${params.id}`, {
+            await fetch(`${url}/capsules/${params.id}`, {
                 method: 'DELETE'
             });
-            if (response.ok) {
-                location.replace('/#/');
-            }
         } catch (err: any) {
             error = err;
-        } finally {
-
         }
     }
 
@@ -185,7 +184,7 @@
     }
 
     onMount(async () => {
-        capsule = await fetchCapsuleId();
+        await fetchCapsule()
         image = await fetchImage(capsule?.image_id!!);
         await fetchCapsule(params.id);
     })

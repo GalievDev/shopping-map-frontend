@@ -5,8 +5,14 @@
     import {InfoCircled} from "radix-icons-svelte";
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
-    export let params: [];
-    const url = 'http://51.250.36.103:5252/api/v1';
+
+    type Params = {
+        id: number;
+    };
+    export let params: Params;
+
+    const url = 'http://10.90.136.54:5252/api/v1';
+
     let error: string | null = null;
     let outfit: Outfits | null = null;
     let image: ImageDTO | null = null;
@@ -17,7 +23,7 @@
         try {
             const response = await fetch(`${url}/outfits/${params.id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch outfit: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -30,7 +36,7 @@
         try {
             const response = await fetch(`${url}/images/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch image: ' + response.statusText);
+                console.log('Failed to fetch image: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
@@ -43,23 +49,26 @@
         try {
             const response = await fetch(`${url}/clothes/${id}`);
             if (!response.ok) {
-                throw new Error('Failed to fetch cloth: ' + response.statusText);
+                console.log('Failed to fetch cloth: ' + response.statusText);
             }
             return await response.json();
         } catch (err: any) {
             error = err.message;
-            console.error('Fetch error:', err);
             return null;
         }
     }
 
-    async function fetchOutfit(id: number) {
+    async function fetchOutfit() {
         outfit = await fetchOutfitId();
         if (outfit) {
             image = await fetchImage(outfit.image_id);
         }
-        const fetchedClothes = await Promise.all(outfit?.clothes!!.map(fetchClothId));
-        clothes = fetchedClothes.filter(Boolean);
+        for (const clothId of outfit?.clothes ?? []) {
+            const cloth = await fetchClothId(clothId);
+            if (cloth) {
+                clothes.push(cloth);
+            }
+        }
         for (const cloth of clothes) {
             fetchImage(cloth.image_id).then(img => {
                 images = { ...images, [cloth.image_id]: img };
@@ -69,12 +78,9 @@
 
     async function sendOutfitRequest() {
         try {
-            const response = await fetch(`${url}/outfits/${params.id}`, {
+            await fetch(`${url}/outfits/${params.id}`, {
                 method: 'DELETE'
             });
-            if (response.ok) {
-                location.replace('/#/');
-            }
         } catch (err: any) {
             error = err;
         } finally {
@@ -156,7 +162,7 @@
     }
 
     onMount(async () => {
-        outfit = await fetchOutfitId();
+        await fetchOutfit();
         image = await fetchImage(outfit?.image_id!!);
         await fetchOutfit(params.id);
     })
