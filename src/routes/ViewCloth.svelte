@@ -10,7 +10,7 @@
     };
     export let params: Params;
 
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1'
     let error: string | null = null;
     let cloth: Clothes | null = null;
     let image: ImageDTO | null = null;

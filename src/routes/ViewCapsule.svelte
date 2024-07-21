@@ -5,19 +5,21 @@
     import {Alert, Grid, Flex, Image, Loader, Text, Title, Button, Card, Group} from "@svelteuidev/core";
     import type ImageDTO from "../dto/Image";
     import type Capsules from "../dto/Capsules";
+    import type Clothes from "../dto/Clothes";
 
     type Params = {
         id: number;
     };
     export let params: Params;
 
-    const url = 'http://10.90.136.54:5252/api/v1';
+    const url = 'http://51.250.36.103:5252/api/v1'
 
     let error: string | null = null;
     let capsule: Capsules | null = null;
     let image: ImageDTO | null = null;
     let outfits: Outfits[] = []
     let images: Record<number, ImageDTO | null> = {};
+    let clothes: Clothes[] = []
 
     async function fetchCapsuleId(): Promise<Capsules | null> {
         try {
@@ -100,6 +102,7 @@
         }
     }
 
+
     async function sendOutfitRequest(outfit_id: number) {
         try {
             const response = await fetch(`${url}/capsules/${params.id}/${outfit_id}`, {
@@ -171,22 +174,17 @@
         }
 
         clothes.forEach(cloth => {
-            if (images[cloth.image_id]) {
-                const base64Image = `data:image/png;base64,${images[cloth.image_id]?.bytes}`;
-                const a = document.createElement('a');
-                a.href = base64Image;
-                a.download = `${cloth.name}.png`;
-                a.click();
-            } else {
-                console.error(`Image for cloth ID ${cloth.id} not found.`);
-            }
+            const base64Image = `data:image/png;base64,${images[cloth.image_id]?.bytes}`;
+            const a = document.createElement('a');
+            a.href = base64Image;
+            a.download = `${cloth.name}.png`;
+            a.click();
         });
     }
 
     onMount(async () => {
         await fetchCapsule()
         image = await fetchImage(capsule?.image_id!!);
-        await fetchCapsule(params.id);
     })
 </script>
 
@@ -244,7 +242,7 @@
                                             Перейти к {outfit.name}
                                         </Button>
                                         <Button color=#deccb7 on:click={() => sendOutfitRequest(outfit.id)} fullSize>
-                                            Удалить {outfit.name} из данного аутфита
+                                            Удалить {outfit.name} из данной капсулы
                                         </Button>
                                     </Group>
                             </Card>
